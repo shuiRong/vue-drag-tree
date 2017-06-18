@@ -1,23 +1,24 @@
 # vue-drag-tree
 
-> It's a tree components(Vue2.x) that allow you to drag and drop the node to exchange their data .
+> 这是一个Vue2.x的树组件，并且允许你去拖拽节点进行两者位置的交换，当然，“交换”会反映到data数据里。
 
-**Feature**
+**特效**
 
-- Double click on an item to turn it into a folder
-- Drag and drop the tree node, even between two different levels
+- 双击节点把节点转换成一个 folder
+- 可以拖拽不同的节点，甚至不同层面的
+- 删除/填加节点
 
-**[中文](README_ZH.md)**
+**[EN](README.md)**
 
-### Demo
+### 预览
 
----
+------
 
 ![demo](static/vue-drag-tree.gif)
 
-### Getting Start
+### 快速开始
 
----
+------
 
 **Install**
 
@@ -72,6 +73,6 @@ export default{
 
 **License**
 
----
+------
 
 [MIT](LICENSE)

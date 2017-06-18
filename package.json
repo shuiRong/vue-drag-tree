@@ -1,0 +1,28 @@
+{
+    "name": "vue-drag-tree",
+    "version": "1.0.3",
+    "description": "Drag and drop tree components for Vue2.x, easy to use",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/shuiRong/vue-drag-tree.git"
+    },
+    "author": "shuiRong",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/shuiRong/vue-drag-tree/issues"
+    },
+    "homepage": "https://github.com/shuiRong/vue-drag-tree",
+    "main": "./src/vue-drag-tree.vue",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "vue-drag-tree",
+        "vue-drag",
+        "drag",
+        "tree",
+        "vue",
+        "vue-components",
+        "vuedragtree"
+    ]
+}
