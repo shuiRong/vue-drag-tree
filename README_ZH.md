@@ -28,6 +28,8 @@
 
 **Usage**
 
+[一个简单的项目，用了vue-drag-tree](https://github.com/shuiRong/vue-drag-tree-demo)
+
 main.js
 
 ```vue
