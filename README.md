@@ -27,6 +27,8 @@
 
 **Usage**
 
+[A Simple Project Using vue-drag-tree](https://github.com/shuiRong/vue-drag-tree-demo)
+
 main.js
 
 ```vue
