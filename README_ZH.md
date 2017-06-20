@@ -10,7 +10,7 @@
 - 可以拖拽不同的节点，甚至不同层面的
 - 删除/填加节点
 
-**[EN](README.md)**
+**[EN](README.md)** || **欢迎Star，如果它对你有帮助的话**
 
 ### 预览
 
@@ -68,6 +68,20 @@ export default{
         ]
       }
     }
+  },
+  methods: {
+    assignData(data) {
+      // data 里存储的是已经完成交换行为的data数据。你可以通过赋值，来完成Tree节点交换的最后一步。
+      
+      // 如果你没有用vuex或者类似的组件管理你的data的话，可以简单的这样赋来完成Tree节点的交换
+      this.data = data
+
+      // 如果你用了vuex或者类似组件管理你的data的话，就需要你来自己写赋值语句了。
+      // 比如vuex
+      // updateData 函数是一个vuex的mutation
+
+      // this.updateData(data)
+     },
   }
 }
 <script>

@@ -9,7 +9,7 @@
 - Double click on an item to turn it into a folder
 - Drag and drop the tree node, even between two different levels
 
-**[中文](README_ZH.md)**
+**[中文](README_ZH.md)** || **Please Star it ,if it's helpful**.
 
 ### Demo
 
@@ -67,6 +67,20 @@ export default{
         ]
       }
     }
+  },
+  methods: {
+    assignData(data) {
+      // data is a json object that node infomation was exchanged inside.You need to assign to finish the last step of exchange.
+      
+      // If you have not use vuex or something similar, you can just assign data to this.data
+      this.data = data
+      
+      // If you have used vuex or something similar, you need to write assign code by yourselft.
+      // vuex as an example:
+      // updateData function is a mutation of vuex. 
+      
+      // this.updateData(data)
+    },
   }
 }
 <script>

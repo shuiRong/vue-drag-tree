@@ -92,8 +92,7 @@ export default {
             } catch (e) {
                 return
             }
-
-            rootCom.data = treeData
+            rootCom.assignData(treeData)
         },
         changeType: function () {
             if (!this.isFolder) {
@@ -110,7 +109,7 @@ export default {
                 // Warning: 因为是判断data属性是否存在，所有在别人使用该组件时，属性名必须得是data
                 if (that.$parent.data) {
                     ok = true
-                    // 交换两者的数据
+                    // 交换两者的数据 
                     that.exchangeData(that.$parent, from, to)
                     break
                 }
@@ -182,3 +181,4 @@ export default {
     width: 1rem;
 }
 </style>
+
