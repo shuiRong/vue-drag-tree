@@ -83,6 +83,9 @@ export default{
       
       // this.updateData(data)
     },
+    vueDragNodeClicked(id) {
+      // id is the node id clicked just now.
+    },
   }
 }
 <script>

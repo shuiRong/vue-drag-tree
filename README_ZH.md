@@ -84,6 +84,9 @@ export default{
 
       // this.updateData(data)
      },
+     vueDragNodeClicked(id) {
+        // id为当前被点击节点的id.
+     },
   }
 }
 <script>
