@@ -128,6 +128,8 @@ export default {
         dragStart(e) {
             fromData = this.model
             e.dataTransfer.effectAllowed = "move";
+            // Firefox Bug: 如果没有这条语句,只有dragstart事件会被触发且没有拖拽的痕迹. key不能被设为text,否则firefox会跳转到新的标签页
+            e.dataTransfer.setData("nottext", e.target.innerHTML);
         },
         dragEnd(e) {
             this.findRoot(fromData, toData)
