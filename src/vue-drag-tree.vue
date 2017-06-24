@@ -1,14 +1,15 @@
 <template>
     <div>
-        <div :id='model.id' @click="toggle" @dblclick="changeType" draggable='true' v-on:dragstart='dragStart' v-on:dragend='dragEnd' v-on:dragover='dragOver' v-on:dragenter='dragEnter' v-on:dragleave='dragLeave' v-on:drop='drop' class='treeNodeText'>
+        <div :id='model.id' @click="toggle" @dblclick="changeType" draggable='true' v-on:dragstart='dragStart' v-on:dragover='dragOver' v-on:dragenter='dragEnter' v-on:dragleave='dragLeave' v-on:drop='drop' v-on:dragend='dragEnd' class='treeNodeText'>
             {{model.name}}
             <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+            <span @click="removeChild(model.id)" v-if='model.id !="0"'>&nbsp;x</span>
         </div>
         <div class='treeMargin' v-show="open" v-if="isFolder">
             <item v-for="model in model.children" :model="model" :key='model.id'>
             </item>
             <div class='changeTree' @click="addChild">+</div>
-            <div class="changeTree" @click="removeChild">-</div>
+            <!--<div class="changeTree" @click="removeChild">-</div>-->
         </div>
     </div>
 </template>
@@ -36,11 +37,13 @@ export default {
         },
     },
     methods: {
-        toggle: function () {
+        toggle() {
             if (this.isFolder) {
                 this.open = !this.open
             }
-
+            // 调用vue-drag-tree的父组件中的方法,以传递出当前被点击的节点的id值
+            let rootTree = this.findRoot()
+            rootTree.$parent.vueDragNodeClicked(this.model.id)
         },
         exchangeData(rootCom, from, to) {
 
@@ -92,16 +95,18 @@ export default {
             } catch (e) {
                 return
             }
+            console.log('treeData', treeData)
             rootCom.assignData(treeData)
         },
-        changeType: function () {
+        changeType() {
             if (!this.isFolder) {
                 this.$set(this.model, 'children', [])
                 this.addChild()
                 this.open = true
             }
         },
-        findRoot(from, to) {
+        findRoot() {
+            // 返回Tree的根,即递归Tree时的最顶层那个vue-drag-tree组件
             let ok = false
             let that = this
             while (!ok) {
@@ -110,35 +115,48 @@ export default {
                 if (that.$parent.data) {
                     ok = true
                     // 交换两者的数据 
-                    that.exchangeData(that.$parent, from, to)
                     break
                 }
                 that = that.$parent
             }
+            return that
         },
-        addChild: function () {
+        addChild() {
             this.model.children.push({
                 name: 'Node ' + count++,
                 id: id++
             })
         },
-        removeChild: function () {
-            this.model.children.pop()
+        removeChild(id) {
+            // 获取父组件的model.children
+            let parent_model_children = this.$parent.model.children
+
+            // 在父组件model.children里删除
+            for (let index in parent_model_children) {
+                // 找到该删的id
+                if (parent_model_children[index].id == id) {
+                    parent_model_children = parent_model_children.splice(index, 1)
+                    break
+                }
+            }
         },
         dragStart(e) {
             fromData = this.model
             e.dataTransfer.effectAllowed = "move";
-            // Firefox Bug: 如果没有这条语句,只有dragstart事件会被触发且没有拖拽的痕迹. key不能被设为text,否则firefox会跳转到新的标签页
             e.dataTransfer.setData("nottext", e.target.innerHTML);
+            return true
         },
         dragEnd(e) {
-            this.findRoot(fromData, toData)
+            let rootTree = this.findRoot()
+            // console.log(parent, fromData, toData)
+            rootTree.exchangeData(rootTree.$parent, fromData, toData)
             fromData = undefined
             toData = undefined
             // e.target.style.background = '#7B1FA2'
         },
         dragOver(e) {
             e.preventDefault()
+            return true
         },
         dragEnter(e) {
             // e.target.style.background = '#4A148C'
