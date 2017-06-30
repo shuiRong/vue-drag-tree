@@ -1,34 +1,39 @@
 <template>
     <div>
-        <div :id='model.id' @click="toggle" @dblclick="changeType" draggable='true' v-on:dragstart='dragStart' v-on:dragover='dragOver' v-on:dragenter='dragEnter' v-on:dragleave='dragLeave' v-on:drop='drop' v-on:dragend='dragEnd' class='treeNodeText'>
+        <div :id='model.id' @click="toggle" @dblclick="changeType" draggable='true' @dragstart='dragStart' @dragover='dragOver' @dragenter='dragEnter' @dragleave='dragLeave' @drop='drop' @dragend='dragEnd' class='treeNodeText' @mouseover='mouseOver' @mouseout='mouseOut' :style='styleObj'>
+            <span :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
             {{model.name}}
-            <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
             <span @click="removeChild(model.id)" v-if='model.id !="0"'>&nbsp;x</span>
         </div>
         <div class='treeMargin' v-show="open" v-if="isFolder">
             <item v-for="model in model.children" :model="model" :key='model.id'>
             </item>
-            <div class='changeTree' @click="addChild">+</div>
-            <!--<div class="changeTree" @click="removeChild">-</div>-->
+            <div class='changeTree' @click="addChild" @drop='dropPlus' @dragover='dragOverPlus' @dragenter='dragEnterPlus'>+</div>
         </div>
     </div>
 </template>
 
 <script>
-let count = 1000
 let id = 1000
 let fromData = ''
 let toData = ''
+let fromParentModelChildren = ''  // from 节点的父组件的model
+let nodeClicked = undefined   // Attention: 递归的所有组件共享同一个＂顶级作用域＂（这个词或许不太正确，但就这个意思）．即：共享上面这几个let变量．这为实现当前节点的高亮提供了基础．
 
 export default {
     name: 'VueDragTreeCom',
     data: function () {
         return {
             open: false,
+            isClicked: false,
+            styleObj: {
+                background: 'white',
+            }
         }
     },
     props: {
         model: Object,
+        defaultText: String, // 填加节点时显示的文本．
     },
     computed: {
         isFolder() {
@@ -44,11 +49,33 @@ export default {
             // 调用vue-drag-tree的父组件中的方法,以传递出当前被点击的节点的id值
             let rootTree = this.findRoot()
             rootTree.$parent.vueDragNodeClicked(this.model.id)
+
+            // 纪录节点被点击的状态
+            this.isClicked = !this.isClicked
+
+            // 记录被点击节点的id．实现当前节点高亮会用到．
+
+            // 第一次点击当前节点．当前节点高亮，遍历重置其他节点的样式
+            console.log(nodeClicked, this.model.id)
+            if (nodeClicked != this.model.id) {
+                let treeParent = rootTree.$parent
+
+                // 遍历重置所有树组件的高亮样式
+                let nodeStack = [treeParent.$children[0]]
+                while (nodeStack.length != 0) {
+                    let item = nodeStack.shift()
+                    item.styleObj.background = 'white'
+                    if (item.$children && item.$children.length > 0) {
+                        nodeStack = nodeStack.concat(item.$children)
+                    }
+                }
+                // 然后把当前节点的样式设置为高亮
+                this.styleObj.background = '#99A9BF'
+            }
         },
         exchangeData(rootCom, from, to) {
-
             //如果drag的目的地是 + - 符号的话，退出。
-            if (!to || from.id == to.id || typeof to == 'string') {
+            if (!to || !from || typeof to == 'string' || from.id == to.id) {
                 return
             }
 
@@ -95,7 +122,6 @@ export default {
             } catch (e) {
                 return
             }
-            console.log('treeData', treeData)
             rootCom.assignData(treeData)
         },
         changeType() {
@@ -103,6 +129,18 @@ export default {
                 this.$set(this.model, 'children', [])
                 this.addChild()
                 this.open = true
+            }
+
+            this.isClicked = true
+        },
+        mouseOver(e) {
+            if (this.styleObj.background != '#99A9BF' && e.target.className === 'treeNodeText') {
+                e.target.style.background = '#E5E9F2';
+            }
+        },
+        mouseOut(e) {
+            if (this.styleObj.background != '#99A9BF' && e.target.className === 'treeNodeText') {
+                e.target.style.background = 'white'
             }
         },
         findRoot() {
@@ -123,7 +161,7 @@ export default {
         },
         addChild() {
             this.model.children.push({
-                name: 'Node ' + count++,
+                name: this.defaultText ? this.defaultText : '新增节点',
                 id: id++
             })
         },
@@ -141,33 +179,56 @@ export default {
             }
         },
         dragStart(e) {
-            fromData = this.model
+            // fromData = this.model
             e.dataTransfer.effectAllowed = "move";
             e.dataTransfer.setData("nottext", e.target.innerHTML);
             return true
         },
         dragEnd(e) {
-            let rootTree = this.findRoot()
-            // console.log(parent, fromData, toData)
-            rootTree.exchangeData(rootTree.$parent, fromData, toData)
             fromData = undefined
             toData = undefined
-            // e.target.style.background = '#7B1FA2'
+            fromParentModelChildren = undefined
         },
         dragOver(e) {
             e.preventDefault()
             return true
         },
+        dragOverPlus(e) {
+            e.preventDefault()
+        },
+        dragEnterPlus(e) {
+        },
         dragEnter(e) {
-            // e.target.style.background = '#4A148C'
+            toData = this.model
+            let rootTree = this.findRoot()
+            rootTree.exchangeData(rootTree.$parent, fromData, toData)
         },
         dragLeave(e) {
+            fromData = this.model
+            fromParentModelChildren = this.$parent.model.children
             // e.target.style.background = '#7B1FA2'
         },
         drop(e) {
-            toData = this.model
+            // toData = this.model
             // e.target.style.background = '#7B1FA2'
         },
+        dropPlus(e) {
+            // 把from节点插入到当前层级节点的最后一个
+            if (this.model.hasOwnProperty('children')) {
+                this.model.children.push(fromData)
+            } else {
+                this.model.children = [fromData]
+            }
+
+            console.log('fromParentModelChildren', fromParentModelChildren)
+            // 把from节点从之前的节点删除
+            for (let i in fromParentModelChildren) {
+                console.log(PageTransitionEvent[i], 'iii')
+                if (fromParentModelChildren[i].id == fromData.id) {
+                    fromParentModelChildren.splice(i, 1)
+                }
+            }
+        }
     },
     beforeCreate() {
         this.$options.components.item = require('./vue-drag-tree')
@@ -199,6 +260,22 @@ export default {
 
 .changeTree {
     width: 1rem;
+}
+
+.vue-drag-node-icon {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    padding-right: 3px;
+    border-left: 6px solid black;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 0 solid yellow;
+    transition: transform .3s ease-in-out;
+}
+
+.nodeClicked {
+    transform: rotate(90deg);
 }
 </style>
 
