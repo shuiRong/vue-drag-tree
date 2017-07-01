@@ -43,7 +43,7 @@ test.vue
 
 ```vue
 <template>
-	<vue-darg-tree :model='data'></vue-drag-tree>
+	<vue-darg-tree :model='data'　:current-highlight='true' :default-text='"New A Girl"' :hover-color='"lightblue"' :highlight-color='green'></vue-drag-tree>
 </template>
 <script>
 export default{
@@ -84,15 +84,40 @@ export default{
 
       // this.updateData(data)
      },
-     vueDragNodeClicked(id) {
-        // id为当前被点击节点的id.
+     curNodeClicked(model,component) {
+        // 当前被点击节点的主要信息
      },
   }
 }
 <script>
 ```
 
-**License**
+### 接口
+
+---
+
+**属性**
+
+| 属性名               | 描述               | 类型      | 默认值      |
+| :---------------- | :--------------- | :------ | :------- |
+| model             | 树的数据             | object  | －－       |
+| current-highlight | 是否高亮显示被点击的节点     | boolean | false    |
+| default-text      | 新生成的节点的文本        | String  | New Node |
+| hover-color       | 鼠标飘过节点时，节点显示的背景色 | String  | \#E5E9F2 |
+| highlight-color   | 节点高亮时显示的背景色      | String  | \#99A9BF |
+
+
+
+**Methods**
+
+| method name    | description                              | parameter                                |
+| -------------- | ---------------------------------------- | ---------------------------------------- |
+| assignData     | 里面有节点已经交换过的树数据，你只需要把它赋值给之前的data就好．这个方法主要是考虑到有些人在项目中用到了vuex或者其他类似的工具． | (data)  data: 树数据（object类型）              |
+| curNodeClicked | 告诉你哪个节点被点击了，这个节点所在的组件是哪个                 | (model,component) model: 当前被点击节点的数据． component: 当前节点所在的树组件 |
+
+
+
+License**
 
 ------
 

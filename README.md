@@ -42,7 +42,7 @@ test.vue
 
 ```vue
 <template>
-	<vue-darg-tree :model='data'></vue-drag-tree>
+	<vue-darg-tree :model='data' :current-highlight='true' :default-text='"New A Girl"' :hover-color='"lightblue"' :highlight-color='green'></vue-drag-tree>
 </template>
 <script>
 export default{
@@ -83,13 +83,39 @@ export default{
       
       // this.updateData(data)
     },
-    vueDragNodeClicked(id) {
-      // id is the node id clicked just now.
+    curNodeClicked(model,component) {
+      // information of the node clicked just now.
     },
   }
 }
 <script>
 ```
+
+### API
+
+---
+
+**Attributes**
+
+| property name     | description                              | type    | default value |
+| :---------------- | :--------------------------------------- | :------ | :------------ |
+| model             | tree's data (just like a json)           | object  | －－            |
+| current-highlight | need to highlight the node clicked ?     | boolean | false         |
+| default-text      | the text of node that added              | String  | New Node      |
+| hover-color       | the background color when mouse over the node | String  | \#E5E9F2      |
+| highlight-color   | the background color when the node is clicked | String  | \#99A9BF      |
+
+
+
+**Methods**
+
+| method name    | description                              | parameter                                |
+| -------------- | ---------------------------------------- | ---------------------------------------- |
+| assignData     | tree data that node is exchanged inside.what you need to do is assign this data to your former tree data. this method is provided for the one that used vuex in project mainly. | (data)  data: the tree object            |
+| curNodeClicked | is provided for telling you which node is clicked and component the node is belong to | (model,component) model: current node and children's  data. component: current node's component |
+
+
+
 
 **License**
 

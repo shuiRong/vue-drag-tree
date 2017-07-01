@@ -6,7 +6,7 @@
             <span @click="removeChild(model.id)" v-if='model.id !="0"'>&nbsp;x</span>
         </div>
         <div class='treeMargin' v-show="open" v-if="isFolder">
-            <item v-for="model in model.children" :model="model" :key='model.id'>
+            <item v-for="model in model.children" :model="model" :key='model.id' :current-highlight='currentHighlight' :default-text='defaultText' 　:hover-color='hoverColor' :highlight-color='highlightColor'>
             </item>
             <div class='changeTree' @click="addChild" @drop='dropPlus' @dragover='dragOverPlus' @dragenter='dragEnterPlus'>+</div>
         </div>
@@ -33,7 +33,10 @@ export default {
     },
     props: {
         model: Object,
-        defaultText: String, // 填加节点时显示的文本．
+        'default-text': String, // 填加节点时显示的默认文本．
+        'current-highlight': Boolean, // 当前节点高亮
+        'hover-color': String,
+        'highlight-color': String,
     },
     computed: {
         isFolder() {
@@ -48,31 +51,33 @@ export default {
             }
             // 调用vue-drag-tree的父组件中的方法,以传递出当前被点击的节点的id值
             let rootTree = this.findRoot()
-            rootTree.$parent.vueDragNodeClicked(this.model.id)
+            //　API: 对外开放的当前被点击节点的信息
+            rootTree.$parent.curNodeClicked(this.model, this)
 
             // 纪录节点被点击的状态
             this.isClicked = !this.isClicked
 
-            // 记录被点击节点的id．实现当前节点高亮会用到．
-            console.info(nodeClicked, '_', this.model.id)
-            // 第一次点击当前节点．当前节点高亮，遍历重置其他节点的样式
-            if (nodeClicked != this.model.id) {
-                let treeParent = rootTree.$parent
+            // 用户需要节点高亮？　-->　this.currentHighlight ? 高亮 : 不高亮
+            if (this.currentHighlight) {
+                // 第一次点击当前节点．当前节点高亮，遍历重置其他节点的样式
+                if (nodeClicked != this.model.id) {
+                    let treeParent = rootTree.$parent
 
-                // 遍历重置所有树组件的高亮样式
-                let nodeStack = [treeParent.$children[0]]
-                while (nodeStack.length != 0) {
-                    let item = nodeStack.shift()
-                    item.styleObj.background = 'white'
-                    if (item.$children && item.$children.length > 0) {
-                        nodeStack = nodeStack.concat(item.$children)
+                    // 遍历重置所有树组件的高亮样式
+                    let nodeStack = [treeParent.$children[0]]
+                    while (nodeStack.length != 0) {
+                        let item = nodeStack.shift()
+                        item.styleObj.background = 'white'
+                        if (item.$children && item.$children.length > 0) {
+                            nodeStack = nodeStack.concat(item.$children)
+                        }
                     }
-                }
-                // 然后把当前节点的样式设置为高亮
-                this.styleObj.background = '#99A9BF'
+                    // 然后把当前节点的样式设置为高亮
+                    this.styleObj.background = this.highlightColor ? this.highlightColor : '#99A9BF'
 
-                // 设置为当前节点
-                nodeClicked = this.model.id
+                    // 设置为当前节点
+                    nodeClicked = this.model.id
+                }
             }
         },
         exchangeData(rootCom, from, to) {
@@ -124,11 +129,14 @@ export default {
             } catch (e) {
                 return
             }
+            //API: 对外开放交换后的数据的赋值操作
             rootCom.assignData(treeData)
         },
         changeType() {
-            nodeClicked = this.model.id
-            console.log('dbclick', nodeClicked)
+            // 用户需要高亮-->才纪录当前被点击节点
+            if (this.currentHighlight) {
+                nodeClicked = this.model.id
+            }
             if (!this.isFolder) {
                 this.$set(this.model, 'children', [])
                 this.addChild()
@@ -137,12 +145,12 @@ export default {
             }
         },
         mouseOver(e) {
-            if (this.styleObj.background != '#99A9BF' && e.target.className === 'treeNodeText') {
-                e.target.style.background = '#E5E9F2';
+            if ((this.styleObj.background != '#99A9BF' || this.styleObj.background != this.hightlightColor) && e.target.className === 'treeNodeText') {
+                e.target.style.background = this.hoverColor ? this.hoverColor : '#E5E9F2'
             }
         },
         mouseOut(e) {
-            if (this.styleObj.background != '#99A9BF' && e.target.className === 'treeNodeText') {
+            if ((this.styleObj.background != '#99A9BF' || this.styleObj.background != this.hightlightColor) && e.target.className === 'treeNodeText') {
                 e.target.style.background = 'white'
             }
         },
@@ -164,7 +172,7 @@ export default {
         },
         addChild() {
             this.model.children.push({
-                name: this.defaultText ? this.defaultText : '新增节点',
+                name: this.defaultText ? this.defaultText : 'New Node',
                 id: id++
             })
         },
@@ -235,6 +243,9 @@ export default {
     },
     beforeCreate() {
         this.$options.components.item = require('./vue-drag-tree')
+    },
+    created() {
+        console.log('this.hig', this.highlightColor, '|', this.hoverColor)
     },
 }
 </script>
