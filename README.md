@@ -6,7 +6,7 @@
 
 **Feature**
 
-- Double click on an item to turn it into a folder
+- **Double click on an item to turn it into a folder**
 - Drag and drop the tree node, even between two different levels
 
 **[中文](README_ZH.md)** || **Please Star it ,if it's helpful**.
@@ -15,7 +15,7 @@
 
 ---
 
-![demo](static/vue-drag-tree.gif)
+![demo](static/vue-drag-tree2.gif)
 
 ### Getting Start
 

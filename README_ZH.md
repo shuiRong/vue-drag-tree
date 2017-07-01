@@ -6,7 +6,7 @@
 
 **特效**
 
-- 双击节点把节点转换成一个 folder
+- **双击节点把节点转换成一个 folder**
 - 可以拖拽不同的节点，甚至不同层面的
 - 删除/填加节点
 
@@ -16,7 +16,7 @@
 
 ------
 
-![demo](static/vue-drag-tree.gif)
+![demo](static/vue-drag-tree2.gif)
 
 ### 快速开始
 

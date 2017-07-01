@@ -54,9 +54,8 @@ export default {
             this.isClicked = !this.isClicked
 
             // 记录被点击节点的id．实现当前节点高亮会用到．
-
+            console.info(nodeClicked, '_', this.model.id)
             // 第一次点击当前节点．当前节点高亮，遍历重置其他节点的样式
-            console.log(nodeClicked, this.model.id)
             if (nodeClicked != this.model.id) {
                 let treeParent = rootTree.$parent
 
@@ -71,6 +70,9 @@ export default {
                 }
                 // 然后把当前节点的样式设置为高亮
                 this.styleObj.background = '#99A9BF'
+
+                // 设置为当前节点
+                nodeClicked = this.model.id
             }
         },
         exchangeData(rootCom, from, to) {
@@ -125,13 +127,14 @@ export default {
             rootCom.assignData(treeData)
         },
         changeType() {
+            nodeClicked = this.model.id
+            console.log('dbclick', nodeClicked)
             if (!this.isFolder) {
                 this.$set(this.model, 'children', [])
                 this.addChild()
                 this.open = true
+                this.isClicked = true
             }
-
-            this.isClicked = true
         },
         mouseOver(e) {
             if (this.styleObj.background != '#99A9BF' && e.target.className === 'treeNodeText') {
@@ -260,6 +263,7 @@ export default {
 
 .changeTree {
     width: 1rem;
+    color: #324057;
 }
 
 .vue-drag-node-icon {
