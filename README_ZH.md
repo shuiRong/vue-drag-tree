@@ -108,16 +108,16 @@ export default{
 
 
 
-**Methods**
+**方法**
 
-| method name    | description                              | parameter                                |
+| 方法名            | 描述                                       | 参数                                       |
 | -------------- | ---------------------------------------- | ---------------------------------------- |
 | assignData     | 里面有节点已经交换过的树数据，你只需要把它赋值给之前的data就好．这个方法主要是考虑到有些人在项目中用到了vuex或者其他类似的工具． | (data)  data: 树数据（object类型）              |
 | curNodeClicked | 告诉你哪个节点被点击了，这个节点所在的组件是哪个                 | (model,component) model: 当前被点击节点的数据． component: 当前节点所在的树组件 |
 
 
 
-License**
+**License**
 
 ------
 
