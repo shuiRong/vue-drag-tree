@@ -21,7 +21,7 @@ let fromParentModelChildren = ''  // from 节点的父组件的model
 let nodeClicked = undefined   // Attention: 递归的所有组件共享同一个＂顶级作用域＂（这个词或许不太正确，但就这个意思）．即：共享上面这几个let变量．这为实现当前节点的高亮提供了基础．
 
 export default {
-    name: 'VueDragTreeCom',
+    name: 'VueDragTreeCom42',
     data: function () {
         return {
             open: false,
@@ -161,7 +161,8 @@ export default {
             while (!ok) {
                 // 如果父组件有data属性，说明当前组件是Tree组件递归调用发生时的第一个组件。
                 // Warning: 因为是判断data属性是否存在，所有在别人使用该组件时，属性名必须得是data
-                if (that.$parent.data) {
+                // v1.0.9-update: add another judgement method.
+                if (!/VueDragTreeCom42/.test(that.$parent.$vnode.tag) || that.$parent.data) {
                     ok = true
                     // 交换两者的数据 
                     break
@@ -231,10 +232,8 @@ export default {
                 this.model.children = [fromData]
             }
 
-            console.log('fromParentModelChildren', fromParentModelChildren)
             // 把from节点从之前的节点删除
             for (let i in fromParentModelChildren) {
-                console.log(PageTransitionEvent[i], 'iii')
                 if (fromParentModelChildren[i].id == fromData.id) {
                     fromParentModelChildren.splice(i, 1)
                 }
@@ -245,7 +244,7 @@ export default {
         this.$options.components.item = require('./vue-drag-tree')
     },
     created() {
-        console.log('this.hig', this.highlightColor, '|', this.hoverColor)
+        // console.log('this.hig', this.highlightColor, '|', this.hoverColor)
     },
 }
 </script>
