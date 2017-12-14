@@ -55,7 +55,7 @@ export default{
         children: [
           {
             name: 'Node 1-1',
-            id: 1
+            id: 1,
             children: [
               {
                 name: 'Node 2-1',
