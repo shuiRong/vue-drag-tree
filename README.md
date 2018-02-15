@@ -88,7 +88,7 @@ export default{
     },
   }
 }
-<script>
+</script>
 ```
 
 ### API
