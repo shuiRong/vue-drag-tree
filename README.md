@@ -42,7 +42,7 @@ test.vue
 
 ```vue
 <template>
-	<vue-drag-tree :model='data' :current-highlight='true' :default-text='"New A Girl"' :hover-color='"lightblue"' :highlight-color='green'></vue-drag-tree>
+	<vue-drag-tree :model='data' :current-highlight='true' :default-text='"New A Girl"' :hover-color='"lightblue"' :highlight-color='"green"'></vue-drag-tree>
 </template>
 <script>
 export default{
