@@ -1,6 +1,6 @@
 {
     "name": "vue-drag-tree",
-    "version": "1.0.10",
+    "version": "1.0.12",
     "description": "Drag and drop tree components for Vue2.x, easy to use",
     "repository": {
         "type": "git",
@@ -20,6 +20,7 @@
         "vue-drag-tree",
         "vue-drag",
         "drag",
+        "drop",
         "tree",
         "vue",
         "vue-components",
