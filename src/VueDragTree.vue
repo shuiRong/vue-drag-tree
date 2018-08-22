@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import DragNode from './DragNode';
+import DragNode from './DragNode'
 export default {
   name: 'VueDragTree',
   props: {
@@ -32,51 +32,51 @@ export default {
   },
   computed: {
     increaseDepth() {
-      return this.depth + 1;
+      return this.depth + 1
     },
     newData: {
       // getter
       get() {
-        return this.data;
+        return this.data
       },
       // setter
       set(newValue) {
         // 移除原属性内部所有的值，为了要一个“干净”的引用对象。
-        let length = this.data.length;
+        let length = this.data.length
         for (let i = 0; i < length; i++) {
-          this.data.shift(i);
+          this.data.shift(i)
         }
         // 然后利用对象深拷贝（返回target的引用），因此控制台不会报错～
-        this.data = Object.assign(this.data, newValue);
+        this.data = Object.assign(this.data, newValue)
       }
     }
   },
   methods: {
     emitCurNodeClicked(model, component) {
-      this.$emit('current-node-clicked', model, component);
+      this.$emit('current-node-clicked', model, component)
     },
     emitDrag(model, component, e) {
-      this.$emit('drag', model, component, e);
+      this.$emit('drag', model, component, e)
     },
     emitDragEnter(model, component, e) {
-      this.$emit('drag-enter', model, component, e);
+      this.$emit('drag-enter', model, component, e)
     },
     emitDragLeave(model, component, e) {
-      this.$emit('drag-leave', model, component, e);
+      this.$emit('drag-leave', model, component, e)
     },
     emitDragOver(model, component, e) {
-      this.$emit('drag-over', model, component, e);
+      this.$emit('drag-over', model, component, e)
     },
     emitDragEnd(model, component, e) {
-      this.$emit('drag-end', model, component, e);
+      this.$emit('drag-end', model, component, e)
     },
     emitDrop(model, component, e) {
-      this.$emit('drop', model, component, e);
+      this.$emit('drop', model, component, e)
     }
   },
   components: {
     DragNode
   }
-};
+}
 </script>
 
