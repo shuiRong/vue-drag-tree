@@ -17,8 +17,8 @@
 let id = 1000
 let fromData = null
 let toData = null
-let nodeClicked = undefined // Attention: 递归的所有组件共享同一个＂顶级作用域＂（这个词或许不太正确，但就这个意思）．即：共享上面这几个let变量．这为实现当前节点的高亮提供了基础．
-let rootTree = null // vue-drag-tree组件引用
+let nodeClicked = undefined // Attention: 递归的所有组件共享同一个＂顶级作用域＂（这个词或许不太正确，但就这个意思）．即：共享上面这几个let变量．这为实现当前节点的高亮提供了基础．** Recursive components share a comon 'highest-level scope' (not the most accurate terminilogy, but basically what it means). As in: share the few 'left' variables above, serves as highlight for current node.
+let rootTree = null // vue-drag-tree组件引用 ** component reference
 
 import { findRoot, exchangeData } from './util'
 export default {
@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       open: false,
-      isClicked: false, // 当前节点被点击
-      isHover: false, // 当前节点被hvoer
+      isClicked: false, // 当前节点被点击 ** clicking current node
+      isHover: false, // 当前节点被hvoer ** hovering current node
       styleObj: {
         opacity: 1
       }
@@ -44,7 +44,7 @@ export default {
       default: () => true
     },
     defaultText: {
-      // 填加节点时显示的默认文本．
+      // 填加节点时显示的默认文本．** display default text for node
       type: String,
       default: '新增节点'
     },
@@ -69,19 +69,19 @@ export default {
       if (this.isFolder) {
         this.open = !this.open
       }
-      // 调用vue-drag-tree的父组件中的方法,以传递出当前被点击的节点的id值
-      //　API: 对外开放的当前被点击节点的信息
+      // 调用vue-drag-tree的父组件中的方法,以传递出当前被点击的节点的id值 ** method for calling vue-drag-tree's parent component to transfer the id value of the node that was clicked
+      //　API: 对外开放的当前被点击节点的信息 ** exposes info on clicked node
       rootTree.emitCurNodeClicked(this.model, this)
 
-      // 纪录节点被点击的状态
+      // 纪录节点被点击的状态 ** record node click status
       this.isClicked = !this.isClicked
 
-      // 用户需要节点高亮
-      // 第一次点击当前节点．当前节点高亮，遍历重置其他节点的样式
+      // 用户需要节点高亮 ** highlight the node the user needs
+      // 第一次点击当前节点．当前节点高亮，遍历重置其他节点的样式 ** first time clicking current node, highlights it, traverse and resets other node's style
       if (nodeClicked != this.model.id) {
         let treeParent = rootTree.$parent
 
-        // 遍历重置所有树组件的高亮样式
+        // 遍历重置所有树组件的高亮样式 ** traverse and resets other node's highlighting style
         let nodeStack = [treeParent.$children[0]]
         while (nodeStack.length != 0) {
           let item = nodeStack.shift()
@@ -90,16 +90,16 @@ export default {
             nodeStack = nodeStack.concat(item.$children)
           }
         }
-        // 然后把当前节点的样式设置为高亮
+        // 然后把当前节点的样式设置为高亮 ** then highlights current clicked node
         this.isClicked = true
 
-        // 设置节点为 当前节点
+        // 设置节点为 当前节点 ** sets node to current node
         nodeClicked = this.model.id
       }
     },
 
     changeType() {
-      // 用户需要高亮-->才纪录当前被点击节点
+      // 用户需要高亮-->才纪录当前被点击节点 ** user needs highlight --> then record currently clicked node
       if (this.currentHighlight) {
         nodeClicked = this.model.id
       }
@@ -123,12 +123,12 @@ export default {
       })
     },
     removeChild(id) {
-      // 获取父组件的model.children
+      // 获取父组件的model.children ** acquire parent's model.children
       let parent_model_children = this.$parent.model.children
 
-      // 在父组件model.children里删除
+      // 在父组件model.children里删除 ** delete from parent's model.children
       for (let index in parent_model_children) {
-        // 找到该删的id
+        // 找到该删的id ** find the id that needs to be deleted
         if (parent_model_children[index].id == id) {
           parent_model_children = parent_model_children.splice(index, 1)
           break
@@ -162,7 +162,7 @@ export default {
     drop(e) {
       e.preventDefault()
       this.styleObj.opacity = 1
-      // 如果判断当前节点不允许被drop，return;
+      // 如果判断当前节点不允许被drop，return; ** if decided that current node cannot be dropped, return;
       if (!this.allowDrop(this.model, this)) {
         return
       }
