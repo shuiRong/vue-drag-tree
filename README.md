@@ -12,6 +12,7 @@
 - **Append/Remove** Node in any level (#TODO)
 
 **[中文](README_ZH.md)** || **Please Star! if it's helpful**.
+**[Example Project](https://github.com/shuiRong/vue-drag-tree-demo)**
 
 ### Preview
 
@@ -150,15 +151,15 @@ export default{
 
 **Method**
 
-| Name            | Description                                                  | arguments                                                    |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| current-clicked | Tell you which node was clicked                              | (model,component) model:  node data was clicked． component: VNode data for the node was clicked |
-| drag            | The `drag` event is fired every few hundred milliseconds as an node is being dragged by the user | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event |
-| drag-enter      | The `drag-enter` event is fired when a dragged node enters a valid drop target | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
-| drag-leave      | The `drag-leave` event is fired when a dragged node leaves a valid drop target | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
-| drag-over       | The `drag-over` event is fired when an node is being dragged over a valid drop target | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
-| drag-end        | The `drag-end` event is fired when a drag operation is being ended | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event |
-| drop            | The **drop** event is fired when an node is dropped on a valid drop target. | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
+| Name            | Description                                                                                      | arguments                                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| current-clicked | Tell you which node was clicked                                                                  | (model,component) model:  node data was clicked． component: VNode data for the node was clicked                   |
+| drag            | The `drag` event is fired every few hundred milliseconds as an node is being dragged by the user | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event    |
+| drag-enter      | The `drag-enter` event is fired when a dragged node enters a valid drop target                   | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
+| drag-leave      | The `drag-leave` event is fired when a dragged node leaves a valid drop target                   | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
+| drag-over       | The `drag-over` event is fired when an node is being dragged over a valid drop target            | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
+| drag-end        | The `drag-end` event is fired when a drag operation is being ended                               | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event    |
+| drop            | The **drop** event is fired when an node is dropped on a valid drop target.                      | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
 
 
 
