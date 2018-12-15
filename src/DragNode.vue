@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class='treeMargin' v-show="open" v-if="isFolder">
-      <item v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText' :disableDoubleCLick='disableDoubleCLick'>
+      <item v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText' :disableDBClick='disableDBClick'>
       </item>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
       type: Number,
       default: 0
     },
-    disableDoubleClick: {
+    disableDBClick: {
       type: Boolean,
       default: false
     }
@@ -104,7 +104,7 @@ export default {
 
     changeType() {
       // 如果用户禁用了双击增加item，什么都不做
-      if(this.disableDoubleClick){
+      if(this.disableDBClick){
         return
       }
       // 用户需要高亮-->才纪录当前被点击节点
