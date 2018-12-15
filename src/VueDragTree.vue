@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-for='(item,index) in newData'>
-      <drag-node :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :key='index'></drag-node>
+      <drag-node :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :disableDoubleClick='disableDoubleClick' :key='index'></drag-node>
     </template>
   </div>
 </template>
@@ -23,11 +23,15 @@ export default {
     defaultText: {
       // 填加节点时显示的默认文本．
       type: String,
-      default: '新增节点'
+      default: 'New Node'
     },
     depth: {
       type: Number,
       default: 0
+    },
+    disableDoubleClick: {  // 禁用双击增加新的item
+      type: Boolean,
+      default: false
     }
   },
   computed: {

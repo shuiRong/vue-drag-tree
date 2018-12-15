@@ -46,11 +46,15 @@ export default {
     defaultText: {
       // 填加节点时显示的默认文本．
       type: String,
-      default: '新增节点'
+      default: 'New Node'
     },
     depth: {
       type: Number,
       default: 0
+    },
+    disableDoubleClick: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -99,6 +103,10 @@ export default {
     },
 
     changeType() {
+      // 如果用户禁用了双击增加item，什么都不做
+      if(this.disableDoubleClick){
+        return
+      }
       // 用户需要高亮-->才纪录当前被点击节点
       if (this.currentHighlight) {
         nodeClicked = this.model.id
