@@ -1,7 +1,7 @@
 <template>
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
     <div :class='{"is-clicked": isClicked,"is-hover":isHover}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
-      <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
+      <div :style="{ 'padding-left': (this.depth - 1) * 24 + 'px' }" :id='model.id' class='treeNodeText'>
         <span :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
         <span class='text'>{{model.name}}</span>
       </div>
@@ -228,7 +228,7 @@ export default {
 }
 
 .changeTree {
-  width: 1rem;
+  width: 16px;
   color: #324057;
 }
 
