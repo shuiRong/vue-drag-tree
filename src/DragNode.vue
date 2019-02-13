@@ -7,8 +7,8 @@
       </div>
     </div>
     <div class='treeMargin' v-show="open" v-if="isFolder">
-      <item v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText' :disableDBClick='disableDBClick'>
-      </item>
+      <drag-node v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText' :disableDBClick='disableDBClick'>
+      </drag-node>
     </div>
   </div>
 </template>
@@ -182,9 +182,6 @@ export default {
       rootTree.emitDragEnd(this.model, this, e)
       return
     }
-  },
-  beforeCreate() {
-    this.$options.components.item = require('./DragNode.vue')
   },
   created() {
     rootTree = findRoot(this)
