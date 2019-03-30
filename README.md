@@ -169,4 +169,4 @@ export default{
 
 ---
 
-[MIT](LICENSE)
+[The 996ICU License (996ICU)](LICENSE)
