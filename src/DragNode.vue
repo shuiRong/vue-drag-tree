@@ -2,8 +2,10 @@
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
     <div :class='{"is-clicked": isClicked,"is-hover":isHover}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 24 + 'px' }" :id='model.id' class='treeNodeText'>
-        <span :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
-        <span class='text'>{{model.name}}</span>
+        <slot>
+          <span :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
+          <span class='text'>{{model.name}}</span>
+        </slot>
       </div>
     </div>
     <div class='treeMargin' v-show="open" v-if="isFolder">
