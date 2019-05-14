@@ -1,7 +1,9 @@
 <template>
   <div>
     <template v-for='(item,index) in newData'>
-      <drag-node :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :disableDBClick='disableDBClick' :key='index'></drag-node>
+      <drag-node :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :disableDBClick='disableDBClick' :key='index'>
+        <slot name="custom-markup"></slot>
+      </drag-node>
     </template>
   </div>
 </template>
