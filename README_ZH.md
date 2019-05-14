@@ -38,6 +38,16 @@ or
 
 以下代码来自[示例项目](https://github.com/shuiRong/vue-drag-tree-demo)
 
+
+
+**注：**如果你运行时报这个错： `Vue packages version mismatch`
+
+```bash
+// 将Vue和vue-template-compiler更新至最近版本即可解决！
+npm install vue@latest -S
+npm install vue-template-compiler@latest -D
+```
+
 main.js
 
 ```vue

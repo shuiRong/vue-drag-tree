@@ -39,6 +39,14 @@ the following code is come from [here](https://github.com/shuiRong/vue-drag-tree
 
 
 
+**P.S. ** If you get error about` Vue packages version mismatch`
+
+```bash
+// Update the version of Vue and vue-template-compiler to latest is fine.  
+npm install vue@latest -S
+npm install vue-template-compiler@latest -D
+```
+
 main.js
 
 ```vue
