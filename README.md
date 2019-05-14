@@ -8,6 +8,7 @@
 
 - **Double click** on an node to turn it into a folder
 - **Drag and Drop** the tree node, even between two different levels
+- **Customize your node (how to display node. eg: node name and left icon )**
 - **Controls** whether a particular node can **be dragged** and whether the node can be plugged into other nodes
 - **Append/Remove** Node in any level (#TODO)
 
@@ -26,11 +27,15 @@
 
 **Install**
 
-`npm install vue-drag-tree --save`
+`npm install vue-drag-tree --S`
+
+or
+
+`yarn add vue-drag-tree -S`
 
 **Usage**
 
-[A Simple Project Using vue-drag-tree](https://github.com/shuiRong/vue-drag-tree-demo)
+the following code is come from [here](https://github.com/shuiRong/vue-drag-tree-demo)
 
 
 
@@ -48,7 +53,10 @@ test.vue
 
 ```vue
 <template>
-	<vue-drag-tree :data='data' :allowDrag='allowDrag' :allowDrop='allowDrop' :defaultText='"New Node"' @current-node-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler">
+	<vue-drag-tree :data='data' :allowDrag='allowDrag' :allowDrop='allowDrop' :defaultText='"New Node"' @current-node-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler" v-slot="slotProps">
+    <!-- customize your node here if don't like the default / 如果你不喜欢默认样式，可以在这里定制你自己的节点 -->
+    <span :class="[slotProps.isClicked ? 'i-am-clicked' : 'i-am-not-clicked']"></span>
+    <span class='i-am-node-name'>{{slotProps.nodeName}}</span>
     </vue-drag-tree>
 </template>
 <script>
@@ -162,6 +170,22 @@ export default{
 | drag-end             | The `drag-end` event is fired when a drag operation is being ended                               | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event    |
 | drop                 | The **drop** event is fired when an node is dropped on a valid drop target.                      | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
 
+**Slot**
+
+```vue
+<vue-drag-tree ... v-slot="slotProps">
+    <!-- customize your node here if don't like the default -->
+    <span :class="[slotProps.isClicked ? 'i-am-clicked' : 'i-am-not-clicked']"></span>
+    <span class='i-am-node-name'>{{slotProps.nodeName}}</span>
+</vue-drag-tree>
+```
+
+`slotProps`has two attributes：
+
+| attribute name | description                                  | value type |
+| -------------- | -------------------------------------------- | ---------- |
+| nodeName       | the name of displaying node                  | String     |
+| isClicked      | if the node is clicked (true means expanded) | Boolean    |
 
 
 

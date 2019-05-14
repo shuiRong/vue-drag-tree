@@ -8,10 +8,12 @@
 
 - **双击**节点**添加**一个字节点 
 - 对节点进行**任意拖拽**
+- **自定义**显示节点（比如如何展示名称、左侧图标）
 - **控制**特定节点**是否可拖**、**是否可放置**其他节点
 - **增加/删除** 任意层级的节点（#待添加）
 
 **[EN](README.md)** || **如果它对你有帮助的话，请Star支持！！！**
+
 **[示例项目](https://github.com/shuiRong/vue-drag-tree-demo)**
 
 ### 预览
@@ -26,13 +28,15 @@
 
 **Install**
 
-`npm install vue-drag-tree --save`
+`npm install vue-drag-tree -S`
+
+or
+
+`yarn add vue-drag-tree -S`
 
 **Usage**
 
-[一个简单的项目，用了vue-drag-tree](https://github.com/shuiRong/vue-drag-tree-demo)
-
-
+以下代码来自[示例项目](https://github.com/shuiRong/vue-drag-tree-demo)
 
 main.js
 
@@ -48,7 +52,10 @@ test.vue
 
 ```vue
 <template>
-	<vue-drag-tree :data='data' :allowDrag='allowDrag' :allowDrop='allowDrop' :defaultText='"新节点"' @current-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler">
+	<vue-drag-tree :data='data' :allowDrag='allowDrag' :allowDrop='allowDrop' :defaultText='"新节点"' @current-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler" v-slot="slotProps">
+        <!-- 如果你不喜欢默认样式，可以在这里定制你自己的节点 -->
+    	<span :class="[slotProps.isClicked ? 'i-am-clicked' : 'i-am-not-clicked']"></span>
+    	<span class='i-am-node-name'>{{slotProps.nodeName}}</span>
     </vue-drag-tree>
 </template>
 <script>
@@ -161,6 +168,25 @@ export default{
 | drag-over            | 当节点被拖拽到一个有效的放置目标上时，触发 `dragover `事件 | (model,component,e) model: 有效放置目标节点的数据; component: 有效放置目标节点所在的树组件（VNode）; e: 拖拽事件 |
 | drag-end             | 拖放事件在拖放操作结束时触发                               | (model,component,e) model: 当前被拖动节点的数据; component: 当前被拖动节点所在的树组件（VNode）; e: 拖拽事件     |
 | drop                 | 当节点被放置到一个有效的防止目标上时，`drop`被触发         | (model,component,e) model: 当前被拖动节点的数据; component: 当前被拖动节点所在的树组件（VNode）; e: 拖拽事件     |
+
+
+
+**插槽**
+
+```vue
+<vue-drag-tree ... v-slot="slotProps">
+    <!-- 如果你不喜欢默认样式，可以在这里定制你自己的节点 -->
+    <span :class="[slotProps.isClicked ? 'i-am-clicked' : 'i-am-not-clicked']"></span>
+    <span class='i-am-node-name'>{{slotProps.nodeName}}</span>
+</vue-drag-tree>
+```
+
+`slotProps`有两个属性：
+
+| 属性名称  | 描述                                 | 值类型  |
+| --------- | ------------------------------------ | ------- |
+| nodeName  | 节点的展示名称                       | String  |
+| isClicked | 节点是否曾被点击（true表示展示状态） | Boolean |
 
 
 
