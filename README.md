@@ -39,7 +39,7 @@ the following code is come from [here](https://github.com/shuiRong/vue-drag-tree
 
 
 
-**P.S. ** If you get error about` Vue packages version mismatch`
+**P.S. **  If you get error about` Vue packages version mismatch`
 
 ```bash
 // Update the version of Vue and vue-template-compiler to latest is fine.  
