@@ -8,10 +8,12 @@
 
 - **Double click** on an node to turn it into a folder
 - **Drag and Drop** the tree node, even between two different levels
+- **Customize your node (how to display node. eg: node name and left icon )**
 - **Controls** whether a particular node can **be dragged** and whether the node can be plugged into other nodes
 - **Append/Remove** Node in any level (#TODO)
 
 **[中文](README_ZH.md)** || **Please Star! if it's helpful**.
+**[Example Project](https://github.com/shuiRong/vue-drag-tree-demo)**
 
 ### Preview
 
@@ -25,13 +27,26 @@
 
 **Install**
 
-`npm install vue-drag-tree --save`
+`npm install vue-drag-tree --S`
+
+or
+
+`yarn add vue-drag-tree -S`
 
 **Usage**
 
-[A Simple Project Using vue-drag-tree](https://github.com/shuiRong/vue-drag-tree-demo)
+the following code is come from [here](https://github.com/shuiRong/vue-drag-tree-demo)
 
 
+
+**P.S.** If you get error about` Vue packages version mismatch`
+
+
+```bash
+// Update the version of Vue and vue-template-compiler to latest is fine.  
+npm install vue@latest -S
+npm install vue-template-compiler@latest -D
+```
 
 main.js
 
@@ -47,7 +62,10 @@ test.vue
 
 ```vue
 <template>
-	<vue-drag-tree :data='data' :allowDrag='allowDrag' :allowDrop='allowDrop' :defaultText='"New Node"' @current-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler">
+	<vue-drag-tree :data='data' :allowDrag='allowDrag' :allowDrop='allowDrop' :defaultText='"New Node"' @current-node-clicked='curNodeClicked' @drag="dragHandler" @drag-enter="dragEnterHandler" @drag-leave="dragLeaveHandler" @drag-over="dragOverHandler" @drag-end="dragEndHandler" @drop="dropHandler" v-slot="slotProps">
+    <!-- customize your node here if don't like the default / 如果你不喜欢默认样式，可以在这里定制你自己的节点 -->
+    <span :class="[slotProps.isClicked ? 'i-am-clicked' : 'i-am-not-clicked']"></span>
+    <span class='i-am-node-name'>{{slotProps.nodeName}}</span>
     </vue-drag-tree>
 </template>
 <script>
@@ -139,27 +157,44 @@ export default{
 
 **Attributes**
 
-| Name        | Description                                        | Type     | Default  |
-| :---------- | :------------------------------------------------- | :------- | :------- |
-| data        | data of the tree                                   | Array    | －－     |
-| defaultText | 新生成的节点的文本(name属性)                       | String   | 新增节点 |
-| allowDrag   | Judging which node can be dragged                  | Function | ()=>true |
-| allowDrop   | Judging which node can be plugged into other nodes | Function | ()=>true |
+| Name           | Description                                          | Type     | Default    |
+| :------------- | :--------------------------------------------------- | :------- | :--------- |
+| data           | data of the tree                                     | Array    | －－       |
+| defaultText    | default text of new node                             | String   | "New Node" |
+| allowDrag      | Judging which node can be dragged                    | Function | ()=>true   |
+| allowDrop      | Judging which node can be plugged into other nodes   | Function | ()=>true   |
+| disableDBClick | disable append a new child node by double click node | Boolean  | false      |
 
 
 
 **Method**
 
-| Name            | Description                                                  | arguments                                                    |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| current-clicked | Tell you which node was clicked                              | (model,component) model:  node data was clicked． component: VNode data for the node was clicked |
-| drag            | The `drag` event is fired every few hundred milliseconds as an node is being dragged by the user | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event |
-| drag-enter      | The `drag-enter` event is fired when a dragged node enters a valid drop target | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
-| drag-leave      | The `drag-leave` event is fired when a dragged node leaves a valid drop target | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
-| drag-over       | The `drag-over` event is fired when an node is being dragged over a valid drop target | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
-| drag-end        | The `drag-end` event is fired when a drag operation is being ended | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event |
-| drop            | The **drop** event is fired when an node is dropped on a valid drop target. | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
+| Name                 | Description                                                                                      | arguments                                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| current-node-clicked | Tell you which node was clicked                                                                  | (model,component) model:  node data was clicked． component: VNode data for the node was clicked                   |
+| drag                 | The `drag` event is fired every few hundred milliseconds as an node is being dragged by the user | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event    |
+| drag-enter           | The `drag-enter` event is fired when a dragged node enters a valid drop target                   | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
+| drag-leave           | The `drag-leave` event is fired when a dragged node leaves a valid drop target                   | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
+| drag-over            | The `drag-over` event is fired when an node is being dragged over a valid drop target            | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
+| drag-end             | The `drag-end` event is fired when a drag operation is being ended                               | (model,component,e) model: node data was dragged. component: VNode data for the node was dragged; e: drag event    |
+| drop                 | The **drop** event is fired when an node is dropped on a valid drop target.                      | (model,component,e) model: data of the valid drop target; component: VNode of the valid drop target; e: drag event |
 
+**Slot**
+
+```vue
+<vue-drag-tree ... v-slot="slotProps">
+    <!-- customize your node here if don't like the default -->
+    <span :class="[slotProps.isClicked ? 'i-am-clicked' : 'i-am-not-clicked']"></span>
+    <span class='i-am-node-name'>{{slotProps.nodeName}}</span>
+</vue-drag-tree>
+```
+
+`slotProps`has two attributes：
+
+| attribute name | description                                  | value type |
+| -------------- | -------------------------------------------- | ---------- |
+| nodeName       | the name of displaying node                  | String     |
+| isClicked      | if the node is clicked (true means expanded) | Boolean    |
 
 
 
@@ -167,4 +202,4 @@ export default{
 
 ---
 
-[MIT](LICENSE)
+[The 996ICU License (996ICU)](LICENSE)

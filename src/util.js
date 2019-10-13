@@ -65,6 +65,11 @@ const exchangeData = (rootCom, from, to) => {
     return
   }
 
+  // 如果两者是父子关系且from是父节点，to是子节点，什么都不做
+  if (hasInclude(to, from)) {
+    return
+  }
+
   const newFrom = Object.assign({}, from.model)
 
   // 如果两者是父子关系。将from节点，移动到to节点一级且放到其后一位 ** if two are parent-child relationship. take 'from' node, move to 'to' node's first level and after it
