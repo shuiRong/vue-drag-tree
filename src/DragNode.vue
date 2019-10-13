@@ -6,9 +6,9 @@
         <span class='text'>{{model.name}}</span>
       </div>
     </div>
-    <div class='treeMargin' v-show="open" v-if="isFolder">
-      <item v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText'>
-      </item>
+    <div class='treeMargin' v-show="computedOpen" v-if="isFolder">
+      <drag-node :open="item2.open" v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText'>
+      </drag-node>
     </div>
   </div>
 </template>
@@ -25,15 +25,19 @@ export default {
   name: 'DragNode',
   data() {
     return {
-      open: false,
       isClicked: false, // 当前节点被点击 ** clicking current node
       isHover: false, // 当前节点被hvoer ** hovering current node
       styleObj: {
         opacity: 1
-      }
+      },
+      willOpen: this.open
     }
   },
   props: {
+    open: {
+      type: Boolean,
+      default: false
+    },
     model: Object,
     allowDrag: {
       type: Function,
@@ -62,12 +66,20 @@ export default {
     },
     isDraggable() {
       return this.allowDrag(this.model, this)
+    },
+    computedOpen: {
+      get() {
+        return this.willOpen
+      },
+      set(newValue) {
+        this.willOpen = newValue
+      }
     }
   },
   methods: {
     toggle() {
       if (this.isFolder) {
-        this.open = !this.open
+        this.willOpen = !this.willOpen
       }
       // 调用vue-drag-tree的父组件中的方法,以传递出当前被点击的节点的id值 ** method for calling vue-drag-tree's parent component to transfer the id value of the node that was clicked
       //　API: 对外开放的当前被点击节点的信息 ** exposes info on clicked node
@@ -106,7 +118,7 @@ export default {
       if (!this.isFolder) {
         this.$set(this.model, 'children', [])
         this.addChild()
-        this.open = true
+        this.willOpen = true
         this.isClicked = true
       }
     },
