@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-for='(item,index) in newData'>
-      <drag-node :open='item.open' :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :key='index'></drag-node>
+      <drag-node :createChildNodeOnDoubleClick='createChildNodeOnDoubleClick' :open='item.open' :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :key='index'></drag-node>
     </template>
   </div>
 </template>
@@ -28,6 +28,10 @@ export default {
     depth: {
       type: Number,
       default: 0
+    },
+    createChildNodeOnDoubleClick: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class='treeMargin' v-show="computedOpen" v-if="isFolder">
-      <drag-node :open="item2.open" v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText'>
+      <drag-node :draggable='isDraggable' :createChildNodeOnDoubleClick="createChildNodeOnDoubleClick" :open="item2.open" v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText'>
       </drag-node>
     </div>
   </div>
@@ -55,6 +55,10 @@ export default {
     depth: {
       type: Number,
       default: 0
+    },
+    createChildNodeOnDoubleClick: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -112,14 +116,18 @@ export default {
 
     changeType() {
       // 用户需要高亮-->才纪录当前被点击节点 ** user needs highlight --> then record currently clicked node
-      if (this.currentHighlight) {
-        nodeClicked = this.model.id
-      }
-      if (!this.isFolder) {
-        this.$set(this.model, 'children', [])
-        this.addChild()
-        this.willOpen = true
-        this.isClicked = true
+      console.log('Tree Node model:', this.model)
+      
+      if(this.createChildNodeOnDoubleClick) {
+        if (this.currentHighlight) {
+          nodeClicked = this.model.id
+        }
+        if (!this.isFolder) {
+          this.$set(this.model, 'children', [])
+          this.addChild()
+          this.willOpen = true
+          this.isClicked = true
+        }
       }
     },
     mouseOver(e) {
