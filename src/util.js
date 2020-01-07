@@ -129,4 +129,9 @@ const exchangeData = (rootCom, from, to) => {
   }
 }
 
-export { findRoot, exchangeData }
+String.prototype.replaceAll = function(search, replacement) {
+  var target = this;
+  return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+export { findRoot, exchangeData, replaceAll }
