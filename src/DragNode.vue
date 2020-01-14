@@ -314,7 +314,7 @@ viewBox="0 0 54.971 54.971" style="enable-background:new 0 0 54.971 54.971;" xml
       return sub_subtype? this.computeIcon(sub_subtype) : ''
     },
     isItemRef(subtype) {
-      return subtype.indexOf('itemref.') >= 0
+      return subtype && subtype.indexOf('itemref.') >= 0
     },
     toggle() {
       if (this.isFolder) {
