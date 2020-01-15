@@ -260,7 +260,7 @@ viewBox="0 0 54.971 54.971" style="enable-background:new 0 0 54.971 54.971;" xml
         case 'format':
           return this.computeSelectionIcon(this.format_svg)
 
-        case 'itemref.persona':
+        case 'itemref':
           return smallItemRef ? this.computeSelectionIcon(this.itemref_small_svg) : this.computeSelectionIcon(this.itemref_svg)
 
         case 'functor':
@@ -277,7 +277,7 @@ viewBox="0 0 54.971 54.971" style="enable-background:new 0 0 54.971 54.971;" xml
 
         case 'declaration':
           console.log('computeIcon:', this.$props.model)
-          if (useAs && useAs === 'output') {
+          if (useAs && useAs === 'declaration.output') {
             return this.computeSelectionIcon(this.output_svg)
           } else {
             return this.computeSelectionIcon(this.parameter_svg)
@@ -314,7 +314,7 @@ viewBox="0 0 54.971 54.971" style="enable-background:new 0 0 54.971 54.971;" xml
       return sub_subtype? this.computeIcon(sub_subtype) : ''
     },
     isItemRef(subtype) {
-      return subtype.indexOf('itemref.') >= 0
+      return subtype && subtype.indexOf('itemref.') >= 0
     },
     toggle() {
       if (this.isFolder) {
