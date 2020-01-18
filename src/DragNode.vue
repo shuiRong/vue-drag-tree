@@ -276,7 +276,6 @@ viewBox="0 0 54.971 54.971" style="enable-background:new 0 0 54.971 54.971;" xml
           return this.computeSelectionIcon(this.organization_svg)
 
         case 'declaration':
-          console.log('computeIcon:', this.$props.model)
           if (useAs && useAs === 'declaration.output') {
             return this.computeSelectionIcon(this.output_svg)
           } else {
