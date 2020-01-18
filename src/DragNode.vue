@@ -4,16 +4,7 @@
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
         <span :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
         <div class='text'>
-          <div v-if="!this.isItemRef(model.subtype)">
-            <span class= 'spanIcon' v-html="computeIcon(model.subtype, false, model.use_as)"></span>
-          </div>
-          <div v-if="this.isItemRef(model.subtype)" class='divIcons'>
-            <!-- The icon based on the itemref subtype  -->
-            <span class= 'spanIcon' v-html="computeItemrefIcon(model.subtype)"></span>
-            <!-- The itemref icon -->
-            <span class= 'spanItemref' v-html="computeSelectionIcon(itemref_small_svg)"></span>
-          </div>
-
+          <span class= 'spanIcon' v-html="computeIcon(model.subtype, false, model.use_as)"></span>
           <span :class="[isClicked ? 'spanSelectedText' : '' , isHover ? 'spanUnderlineText' : 'spanText']"> {{model.name}} </span>
         </div>
       </div>
