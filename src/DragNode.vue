@@ -435,15 +435,7 @@ viewBox="0 0 54.971 54.971" style="enable-background:new 0 0 54.971 54.971;" xml
 
 <style>
 .dnd-container {
-  background: #fff;
-}
-
-.dnd-container .is-clicked {
-  background: #e5e9f2;
-}
-
-.dnd-container .is-hover {
-  background: #e5e9f2;
+  background: transparent;
 }
 
 .item {
