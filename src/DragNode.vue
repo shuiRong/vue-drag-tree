@@ -45,6 +45,7 @@ export default {
 <path fill=#{placeholder} class="active-path"    d="M 88.85 120.9 V 13.5 c 0 -7.5 -6 -13.5 -13.5 -13.5 s -13.5 6 -13.5 13.5 v 107.4 c -31.3 6.3 -55 34 -55 67.2 s 23.7 60.9 55 67.2 v 211.4 c 0 7.5 6 13.5 13.5 13.5 s 13.5 -6 13.5 -13.5 V 255.2 c 31.3 -6.3 55 -34 55 -67.2 S 120.15 127.2 88.85 120.9 Z M 75.35 229.6 c -22.9 0 -35.5 -18.6 -35.5 -35.5 s 18.6 -35.5 35.5 -35.5 s 35.5 18.6 35.5 35.5 S 98.15 229.6 75.35 229.6 Z" data-old_color="#000000" data-original="#000000" />
 <path fill=#{placeholder} class="active-path"    d="M 358.45 120.9 V 13.5 c 0 -7.5 -6 -13.5 -13.5 -13.5 s -13.5 6 -13.5 13.5 v 107.4 c -31.3 6.3 -55 34 -55 67.2 s 23.7 60.9 55 67.2 v 211.5 c 0 7.5 6 13.5 13.5 13.5 s 13.5 -6 13.5 -13.5 V 255.2 c 31.3 -6.3 55 -34 55 -67.2 S 449.85 127.2 358.45 120.9 Z M 404.95 229.6 c -22.9 0 -35.5 -18.6 -35.5 -35.5 s 18.6 -35.5 35.5 -35.5 s 35.5 18.6 35.5 35.5 S 427.85 229.6 404.95 229.6 Z" data-old_color="#000000" data-original="#000000" /></g></g></g> </svg>`,
       constraint_svg: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" path fill=#{placeholder} width="16" height="16" viewBox="0 0 24 24"><path d="M15,19.88C15.04,20.18 14.94,20.5 14.71,20.71C14.32,21.1 13.69,21.1 13.3,20.71L9.29,16.7C9.06,16.47 8.96,16.16 9,15.87V10.75L4.21,4.62C3.87,4.19 3.95,3.56 4.38,3.22C4.57,3.08 4.78,3 5,3V3H19V3C19.22,3 19.43,3.08 19.62,3.22C20.05,3.56 20.13,4.19 19.79,4.62L15,10.75V19.88M7.04,5L11,10.06V15.58L13,17.58V10.05L16.96,5H7.04Z" /></svg>`,
+      dashmodel_svg: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M19,5V7H15V5H19M9,5V11H5V5H9M19,13V19H15V13H19M9,17V19H5V17H9M21,3H13V9H21V3M11,3H3V13H11V3M21,11H13V21H21V11M11,15H3V21H11V15Z" /></svg>`,
       datamodel_svg: `<svg xmlns="http://www.w3.org/2000/svg" class="subject-area-icons" id="Capa_1" style="" viewBox="0 0 29.26 29.26" x="0px" y="0px" width="16" height="16" xmlns:xml="http://www.w3.org/XML/1998/namespace" xml:space="preserve"><g><g>
 <path fill=#{placeholder} class="active-path"    d="M 14.627 15.954 c -5.494 0 -10.098 -1.614 -11.355 -3.79 c -0.221 0.383 -0.35 0.781 -0.35 1.194 v 3.561 c 0 2.751 5.242 4.983 11.705 4.983 c 6.467 0 11.711 -2.232 11.711 -4.983 v -3.561 c 0 -0.353 -0.131 -0.811 -0.354 -1.194 C 24.727 14.339 20.127 15.954 14.627 15.954 Z" data-old_color="#030104" data-original="#030104" />
 <path fill=#{placeholder} class="active-path"    d="M 14.627 23.31 c -5.494 0 -10.098 -1.616 -11.355 -3.788 c -0.221 0.381 -0.35 0.779 -0.35 1.191 v 3.564 c 0 2.752 5.242 4.983 11.705 4.983 c 6.467 0 11.711 -2.23 11.711 -4.983 v -3.564 c 0 -0.352 -0.131 -0.81 -0.354 -1.19 C 24.727 21.694 20.127 23.31 14.627 23.31 Z" data-old_color="#030104" data-original="#030104" />
@@ -241,10 +242,13 @@ viewBox="0 0 54.971 54.971" style="enable-background:new 0 0 54.971 54.971;" xml
           return this.computeSelectionIcon(this.asset_svg)
 
         case 'configuration':
-          return this.computeSelectionIcon(this.configuration_svg) 
-          
+          return this.computeSelectionIcon(this.configuration_svg)
+
         case 'constraint':
           return this.computeSelectionIcon(this.constraint_svg)
+
+        case 'dashmodel':
+          return this.computeSelectionIcon(this.dashmodel_svg)
 
         case 'datamodel':
           return this.computeSelectionIcon(this.datamodel_svg)
