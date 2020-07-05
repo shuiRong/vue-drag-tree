@@ -1,16 +1,45 @@
 <template>
-  <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
-    <div :class='{"is-clicked": isClicked,"is-hover":isHover}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
-      <div :style="{ 'padding-left': (this.depth - 1) * 24 + 'px' }" :id='model.id' class='treeNodeText'>
-        <slot :nodeName="model.name" :isClicked='isClicked'>
-          <span :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
-          <span class='text'>{{model.name}}</span>
+  <div
+    :style="styleObj"
+    :draggable="isDraggable"
+    @drag.stop="drag"
+    @dragstart.stop="dragStart"
+    @dragover.stop="dragOver"
+    @dragenter.stop="dragEnter"
+    @dragleave.stop="dragLeave"
+    @drop.stop="drop"
+    @dragend.stop="dragEnd"
+    class="dnd-container"
+  >
+    <div
+      :class="{'is-clicked': isClicked,'is-hover':isHover}"
+      @click="toggle"
+      @mouseover="mouseOver"
+      @mouseout="mouseOut"
+      @dblclick="changeType"
+    >
+      <div
+        :style="{ 'padding-left': (this.depth - 1) * 24 + 'px' }"
+        :id="model.id"
+        class="treeNodeText"
+      >
+        <slot :nodeName="model.name" :isClicked="isClicked">
+          <span :class="[isClicked ? 'nodeClicked' : '',(model.children.length>0) ? 'vue-drag-node-icon':'no-vue-drag-node-icon']" ></span>
+          <span class="text">{{model.name}}</span>
         </slot>
       </div>
     </div>
-    <div class='treeMargin' v-show="open" v-if="isFolder">
-      <drag-node v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText' :disableDBClick='disableDBClick'>
-      </drag-node>
+    <div class="treeMargin" v-show="open" v-if="isFolder">
+      <drag-node
+        v-for="item2 in model.children"
+        :allowDrag="allowDrag"
+        :allowDrop="allowDrop"
+        :depth="increaseDepth"
+        :model="item2"
+        :key="item2.id"
+        :defaultText="defaultText"
+        :disableDBClick="disableDBClick"
+      ></drag-node>
     </div>
   </div>
 </template>
@@ -31,6 +60,7 @@ export default {
       isClicked: false, // 当前节点被点击
       isHover: false, // 当前节点被hvoer
       styleObj: {
+        //节点样式
         opacity: 1
       }
     };
@@ -242,6 +272,19 @@ export default {
   border-bottom: 4px solid transparent;
   border-right: 0 solid yellow;
   transition: transform 0.3s ease-in-out;
+}
+.no-vue-drag-node-icon {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 10px;
+  margin-right: 8px;
+  border-left: 4px solid grey;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 0 solid yellow;
+  transition: transform 0.3s ease-in-out;
+  opacity:0;
 }
 
 .nodeClicked {

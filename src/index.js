@@ -1,7 +1,7 @@
 import VueDragTree from './VueDragTree.vue'
 
 const VueDragTreeComponent = {
-  install: function(Vue) {
+  install: function (Vue) {
     if (typeof window !== 'undefined' && window.Vue) {
       Vue = window.Vue
     }
