@@ -1,13 +1,12 @@
 {
   "name": "vue-drag-tree",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Drag and drop tree components for Vue2.x, easy to use",
   "author": "shuiRong <shuirong1997@icloud.com>",
   "private": false,
   "main": "dist/vue-drag-tree.min.js",
   "scripts": {
     "dev": "node build/dev-server.js",
-    "start": "node build/dev-server.js",
     "build": "node build/build.js"
   },
   "repository": {

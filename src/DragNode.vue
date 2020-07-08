@@ -12,7 +12,7 @@
     class="dnd-container"
   >
     <div
-      :class="{'is-clicked': isClicked,'is-hover':isHover}"
+      :class="{ 'is-clicked': isClicked, 'is-hover': isHover }"
       @click="toggle"
       @mouseover="mouseOver"
       @mouseout="mouseOut"
@@ -24,8 +24,15 @@
         class="treeNodeText"
       >
         <slot :nodeName="model.name" :isClicked="isClicked">
-          <span :class="[isClicked ? 'nodeClicked' : '',(model.children.length>0) ? 'vue-drag-node-icon':'no-vue-drag-node-icon']" ></span>
-          <span class="text">{{model.name}}</span>
+          <span
+            :class="[
+              isClicked ? 'nodeClicked' : '',
+              model.children && model.children.length > 0
+                ? 'vue-drag-node-icon'
+                : 'no-vue-drag-node-icon',
+            ]"
+          ></span>
+          <span class="text">{{ model.name }}</span>
         </slot>
       </div>
     </div>
@@ -61,33 +68,33 @@ export default {
       isHover: false, // 当前节点被hvoer
       styleObj: {
         //节点样式
-        opacity: 1
-      }
+        opacity: 1,
+      },
     };
   },
   props: {
     model: Object,
     allowDrag: {
       type: Function,
-      default: () => true
+      default: () => true,
     },
     allowDrop: {
       type: Function,
-      default: () => true
+      default: () => true,
     },
     defaultText: {
       // 填加节点时显示的默认文本．
       type: String,
-      default: "New Node"
+      default: "New Node",
     },
     depth: {
       type: Number,
-      default: 0
+      default: 0,
     },
     disableDBClick: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     isFolder() {
@@ -98,7 +105,7 @@ export default {
     },
     isDraggable() {
       return this.allowDrag(this.model, this);
-    }
+    },
   },
   methods: {
     toggle() {
@@ -159,7 +166,7 @@ export default {
     addChild() {
       this.model.children.push({
         name: this.defaultText,
-        id: id++
+        id: id++,
       });
     },
     removeChild(id) {
@@ -213,11 +220,11 @@ export default {
     dragEnd(e) {
       rootTree.emitDragEnd(this.model, this, e);
       return;
-    }
+    },
   },
   created() {
     rootTree = findRoot(this);
-  }
+  },
 };
 </script>
 
@@ -284,11 +291,10 @@ export default {
   border-bottom: 4px solid transparent;
   border-right: 0 solid yellow;
   transition: transform 0.3s ease-in-out;
-  opacity:0;
+  opacity: 0;
 }
 
 .nodeClicked {
   transform: rotate(90deg);
 }
 </style>
-
