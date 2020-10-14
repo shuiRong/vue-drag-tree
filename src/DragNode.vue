@@ -2,7 +2,7 @@
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
     <div :class='{"is-clicked": isClicked,"is-hover":isHover}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
-        <span :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
+        <span :class="determineCaret"></span>
         <div class='text'>
           <span class= 'spanIcon' v-html="computeIcon(model.subtype, false, model.use_as)"></span>
           <span :class="[isClicked ? 'spanSelectedText' : '' , isHover ? 'spanUnderlineText' : 'spanText']"> {{model.name}} </span>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { log } from 'util'
 let id = 1000
 let fromData = null
 let toData = null
@@ -213,6 +214,11 @@ viewBox="0 0 54.971 54.971" style="enable-background:new 0 0 54.971 54.971;" xml
     }
   },
   computed: {
+    determineCaret () {
+      let hasChildren = this.model && this.model.children && this.model.children.length > 0
+      if (!hasChildren || !(this.open || this.willOpen)) return ['vue-drag-node-icon']
+      else return ['nodeClicked', 'vue-drag-node-icon']
+    },
     isFolder() {
       return this.model.children && this.model.children.length
     },
