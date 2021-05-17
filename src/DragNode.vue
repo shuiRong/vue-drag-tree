@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { log } from 'util'
 let id = 1000
 let fromData = null
 let toData = null
