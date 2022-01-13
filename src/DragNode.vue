@@ -89,34 +89,41 @@ export default {
   },
   methods: {
     computeIcon(subtype, smallItemRef, useAs) {
+      console.log('subtype', subtype)
       switch(subtype)
       {
         case 'algorithm':
-        case 'asset':
         case 'bundle':
         case 'capture':
         case 'configuration':
-        case 'constraint':
-        case 'dashmodel':
-        case 'datamodel':
         case 'format':
         case 'optimization':
         case 'organization':
-        case 'persona':
-        case 'process':
           return `<i class="sw-${subtype}"></i>`
+        case 'process':
+          return '<i class="sw-menu-tree"></i>'
+        case 'persona':
+          return '<i class="sw-brain-configuration"></i>'
+        case 'asset':
+          return '<i class="sw-cube"></i>'
+        case 'dashmodel':
+          return '<i class="sw-grid"></i>'
+        case 'constraint':
+          return '<i class="sw-filter"></i>'
+        case 'datamodel':
+          return '<i class="sw-data-model"></i>'
         case 'folder':
-          return `<i class="sw-${this.computedOpen ? 'folder_open' : 'folder'}"></i>`
+          return `<i class="sw-${this.computedOpen ? 'folder-open' : 'folder'}"></i>`
         case 'itemref':
-          return `<i class="sw-${this.smallItemRef ? 'itemref_small' : 'itemref'}"></i>`
+          return `<i class="sw-${this.smallItemRef ? 'link-small' : 'link'}"></i>`
         case 'functor':
-          return `<i class="sw-goal"></i>`
+          return `<i class="sw-goal-tree"></i>`
         case 'metric':
-          return `<i class="sw-metrics"></i>`
+          return `<i class="sw-screen-recording"></i>`
         case 'declaration':
-          return `<i class="sw-${useAs && useAs === 'declaration.output' ? 'output' : 'parameter'}"></i>`
+          return `<i class="sw-${useAs && useAs === 'declaration.output' ? 'items-list' : 'parameter'}"></i>`
         case 'order':
-          return `<i class="sw-simulation"></i>`
+          return `<i class="sw-timer"></i>`
         case 'codetemplate':
           return `<i class="sw-templates"></i>`
         default:
@@ -224,6 +231,45 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .spanText, .spanUnderlineText {
+    white-space: nowrap;
+    color: white;
+  }
+  .treeNodeText {
+    color: white !important;
+    cursor: pointer;
+
+    .text {
+      display: flex;
+      align-items: baseline;
+    }
+  }
+  .light-mode .treeNodeText {
+    color: #555 !important;
+  }
+  .vue-drag-node-icon{
+      border-left: 14px solid white !important;
+      border-top: 6px solid transparent !important;
+      border-bottom: 6px solid transparent !important;
+  }
+  .light-mode .vue-drag-node-icon{
+    border-left: 15px solid #555 !important;
+  }
+  .light-mode .spanIcon svg > *:first-child{
+    fill: #555;
+  }
+  .dnd-container .is-clicked {
+    background: #ff7a00;
+    border-radius: 10px;
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+  .spanIcon svg path {
+  fill: white;
+  }
+</style>
 
 <style>
 .dnd-container {
