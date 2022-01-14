@@ -134,4 +134,4 @@ String.prototype.replaceAll = function(search, replacement) {
   return target.replace(new RegExp(search, 'g'), replacement);
 };
 
-export { findRoot, exchangeData, replaceAll }
+export { findRoot, exchangeData }
