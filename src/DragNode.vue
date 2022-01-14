@@ -96,7 +96,7 @@ export default {
         case 'capture':
         case 'configuration':
         case 'format':
-        case 'optimization':
+        case 'user':
         case 'organization':
           return `<i class="sw-${subtype}"></i>`
         case 'process':
@@ -117,6 +117,7 @@ export default {
           return `<i class="sw-${this.smallItemRef ? 'link-small' : 'link'}"></i>`
         case 'functor':
           return `<i class="sw-goal-tree"></i>`
+        case 'optimization':
         case 'metric':
           return `<i class="sw-screen-recording"></i>`
         case 'declaration':
@@ -245,9 +246,6 @@ export default {
       align-items: baseline;
     }
   }
-  .light-mode .treeNodeText {
-    color: #555 !important;
-  }
   .vue-drag-node-icon{
       border-left: 14px solid white !important;
       border-top: 6px solid transparent !important;
@@ -256,21 +254,32 @@ export default {
   .light-mode .vue-drag-node-icon{
     border-left: 15px solid #555 !important;
   }
-  .light-mode .spanIcon svg > *:first-child{
-    fill: #555;
-  }
   .dnd-container .is-clicked {
     background: #ff7a00;
     border-radius: 10px;
     margin-left: 12px;
     margin-right: 12px;
   }
-  .spanIcon svg path {
-  fill: white;
+
+  .light-mode {
+    .spanText {
+      color: #555 !important
+    }
+    .spanUnderlineText:hover {
+      color: #555 !important
+    }
   }
 </style>
 
-<style>
+<style lang="scss">
+.light-mode {
+  .treeNodeText .spanIcon i::before {
+      color: #555 !important;
+    }
+  .is-hover:hover .text .spanUnderlineText {
+    color: #555 !important;
+  }
+}
 .dnd-container {
   background: transparent;
 }
