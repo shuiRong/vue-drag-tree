@@ -89,7 +89,6 @@ export default {
   },
   methods: {
     computeIcon(subtype, smallItemRef, useAs) {
-      console.log('subtype', subtype)
       switch(subtype)
       {
         case 'algorithm':
@@ -278,7 +277,7 @@ export default {
 .dnd-container i {
   font-size: 15px;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   flex-direction: column;
   align-items: center;
 }
