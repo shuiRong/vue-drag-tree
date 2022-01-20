@@ -246,6 +246,12 @@ export default {
       align-items: baseline;
     }
   }
+  .is-clicked {
+    .treeNodeText {
+      background: #ff7a00;
+      border-radius: 10px;
+    }
+  }
   .vue-drag-node-icon{
       border-left: 14px solid white !important;
       border-top: 6px solid transparent !important;
@@ -254,11 +260,10 @@ export default {
   .light-mode .vue-drag-node-icon{
     border-left: 15px solid #555 !important;
   }
-  .dnd-container .is-clicked {
+  .dnd-container .is-clicked .spanSelectedText{
     background: #ff7a00;
     border-radius: 10px;
-    margin-left: 12px;
-    margin-right: 12px;
+    padding-right: 20px;
   }
 
   .light-mode {
@@ -361,8 +366,6 @@ export default {
 .is-clicked {
     background: #FF7A00;
     border-radius: 10px;
-    margin-left: 12px;
-    margin-right: 12px;
 }
 .is-clicked .spanText {
     color: #fff;
