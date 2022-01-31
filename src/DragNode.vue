@@ -2,7 +2,7 @@
   <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
     <div :class='{"is-clicked": isClicked,"is-hover":isHover}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
-        <span :class="determineCaret"></span>
+        <span :class="caret"></span>
         <div class='text'>
           <span class= 'spanIcon' v-html="computeIcon(model.subtype, false, model.use_as)"></span>
           <span :class="[isClicked ? 'spanSelectedText' : '' , isHover ? 'spanUnderlineText' : 'spanText']"> {{model.name}} </span>
@@ -64,9 +64,10 @@ export default {
     }
   },
   computed: {
-    determineCaret () {
+    caret () {
       let hasChildren = this.model && this.model.children && this.model.children.length > 0
-      if (!hasChildren || !(this.open || this.willOpen)) return ['vue-drag-node-icon']
+      if (!hasChildren) return ['no-vue-drag-node-icon']
+      if (!this.willOpen) return ['vue-drag-node-icon']
       else return ['nodeClicked', 'vue-drag-node-icon']
     },
     isFolder() {
@@ -131,9 +132,7 @@ export default {
       }
     },
     toggle() {
-      if (this.isFolder) {
-        this.willOpen = !this.willOpen
-      }
+      if (this.isFolder) this.willOpen = !this.willOpen
       rootTree.emitCurNodeClicked(this.model, this)
       this.isClicked = !this.isClicked
       if (nodeClicked != this.model.id) {
@@ -148,7 +147,7 @@ export default {
         }
         this.isClicked = true
         nodeClicked = this.model.id
-      }
+      } else this.isClicked = true
     },
     changeType() {
       if(this.createChildNodeOnDoubleClick) {
@@ -252,11 +251,6 @@ export default {
       border-radius: 10px;
     }
   }
-  .vue-drag-node-icon{
-      border-left: 14px solid white !important;
-      border-top: 6px solid transparent !important;
-      border-bottom: 6px solid transparent !important;
-  }
   .light-mode .vue-drag-node-icon{
     border-left: 15px solid #555 !important;
   }
@@ -335,7 +329,7 @@ export default {
   height: 0;
   margin-left: 10px;
   margin-right: 8px;
-  border-left: 4px solid grey;
+  border-left: 4px solid white;
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
   border-right: 0 solid yellow;
@@ -378,5 +372,8 @@ export default {
 .divIcons {
   display: flex;
   justify-content: space_between;
+}
+.no-vue-drag-node-icon{
+  margin-left:10px;
 }
 </style>

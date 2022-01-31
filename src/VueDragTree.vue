@@ -45,12 +45,12 @@ export default {
       },
       // setter
       set(newValue) {
-        // 移除原属性内部所有的值，为了要一个“干净”的引用对象。** remove all values in properties, because a clean reference target is needed
+        // remove all values in properties, because a clean reference target is needed
         let length = this.data.length
         for (let i = 0; i < length; i++) {
           this.data.shift(i)
         }
-        // 然后利用对象深拷贝（返回target的引用），因此控制台不会报错～ ** then use deep copy of target (return target's reference). so console won't display error
+        // then use deep copy of target (return target's reference). so console won't display error
         this.data = Object.assign(this.data, newValue)
       }
     }
