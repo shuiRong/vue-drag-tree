@@ -252,7 +252,7 @@ export default {
     }
   }
   .light-mode .vue-drag-node-icon{
-    border-left: 15px solid #555 !important;
+    border-left: 4px solid #555 !important;
   }
   .dnd-container .is-clicked .spanSelectedText{
     background: #ff7a00;
