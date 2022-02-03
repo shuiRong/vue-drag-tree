@@ -247,7 +247,7 @@ export default {
   }
   .is-clicked {
     .treeNodeText {
-      background: #ff7a00;
+      background: #ee8133;
       border-radius: 10px;
     }
   }
@@ -255,7 +255,7 @@ export default {
     border-left: 4px solid #555 !important;
   }
   .dnd-container .is-clicked .spanSelectedText{
-    background: #ff7a00;
+    background: #ee8133;
     border-radius: 10px;
     padding-right: 20px;
   }
@@ -358,7 +358,7 @@ export default {
     color: #ed9235;
 }
 .is-clicked {
-    background: #FF7A00;
+    background: #ee8133;
     border-radius: 10px;
 }
 .is-clicked .spanText {
