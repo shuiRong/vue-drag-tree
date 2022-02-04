@@ -66,7 +66,7 @@ export default {
   computed: {
     caret () {
       let hasChildren = this.model && this.model.children && this.model.children.length > 0
-      if (!hasChildren) return ['no-vue-drag-node-icon']
+      if (!hasChildren) return ['vue-drag-node-icon']
       if (!this.willOpen) return ['vue-drag-node-icon']
       else return ['nodeClicked', 'vue-drag-node-icon']
     },
@@ -232,44 +232,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .spanText, .spanUnderlineText {
-    white-space: nowrap;
-    color: white;
+.spanText, .spanUnderlineText {
+  white-space: nowrap;
+  color: white;
+}
+.treeNodeText {
+  color: white !important;
+  cursor: pointer;
+  .text {
+    display: flex;
+    align-items: baseline;
   }
+}
+.vue-drag-node-icon {
+    border-left: 10px solid white !important;
+    border-top: 4px solid transparent !important;
+    border-bottom: 4px solid transparent !important;
+}
+.light-mode .vue-drag-node-icon {
+  border-left: 10px solid #555 !important;
+}
+.dnd-container .is-clicked {
+  background: #FF7A00 !important;
+  border-radius: 10px;
   .treeNodeText {
-    color: white !important;
-    cursor: pointer;
-
-    .text {
-      display: flex;
-      align-items: baseline;
-    }
-  }
-  .is-clicked {
-    .treeNodeText {
-      background: #ee8133;
-      border-radius: 10px;
-    }
-  }
-  .light-mode .vue-drag-node-icon{
-    border-left: 4px solid #555 !important;
-  }
-  .dnd-container .is-clicked .spanSelectedText{
-    background: #ee8133;
+    background: #FF7A00 !important;
     border-radius: 10px;
-    padding-right: 20px;
-  }
-
-  .light-mode {
-    .spanText {
-      color: #555 !important
-    }
-    .spanUnderlineText:hover {
-      color: #555 !important
+    .spanSelectedText {
+      margin-right: 20px;
     }
   }
+}
+.light-mode {
+  .spanText {
+    color: #555 !important
+  }
+  .spanUnderlineText:hover {
+    color: #555 !important
+  }
+}
 </style>
-
 <style lang="scss">
 .light-mode {
   .treeNodeText .spanIcon i::before {
@@ -289,25 +291,21 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
 .item {
   cursor: pointer;
 }
-
 .bold {
   font-weight: bold;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
 .text {
   font-size: 12px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
 .treeNodeText {
   height: 28px;
   box-sizing: border-box;
@@ -317,63 +315,52 @@ export default {
   display: flex;
   align-items: center;
 }
-
 .changeTree {
   width: 1rem;
   color: #324057;
 }
-
 .vue-drag-node-icon {
   display: inline-block;
   width: 0;
   height: 0;
   margin-left: 10px;
   margin-right: 8px;
-  border-left: 4px solid white;
+  border-left: 4px solid grey;
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
   border-right: 0 solid yellow;
   transition: transform 0.3s ease-in-out;
 }
-
 .nodeClicked {
   transform: rotate(90deg);
 }
-
 .spanIcon {
     margin-top: 2px;
 }
-
 .spanText {
     margin-left: 6px;
 }
-
 .spanUnderlineText {
     margin-left: 6px;
     text-decoration-line: underline;
+    color: #fff !important;
 }
-
 .spanSelectedText {
     margin-left: 6px;
-    color: #ed9235;
+    color: #ED9235;
 }
 .is-clicked {
-    background: #ee8133;
+    background: #FF7A00;
     border-radius: 10px;
 }
 .is-clicked .spanText {
-    color: #fff;
+    color: #fff !important;
 }
-
 .spanItemref {
     margin-left: 2px;
 }
-
 .divIcons {
   display: flex;
   justify-content: space_between;
-}
-.no-vue-drag-node-icon{
-  margin-left:10px;
 }
 </style>
