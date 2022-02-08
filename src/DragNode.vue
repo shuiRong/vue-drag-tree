@@ -92,16 +92,21 @@ export default {
     computeIcon(subtype, smallItemRef, useAs) {
       switch(subtype)
       {
-        case 'algorithm':
-        case 'bundle':
-        case 'capture':
         case 'configuration':
-        case 'format':
         case 'user':
-        case 'organization':
           return `<i class="sw-${subtype}"></i>`
         case 'process':
-          return '<i class="sw-menu-tree"></i>'
+          return '<i class="sw-diagram"></i>'
+        case 'organization':
+          return '<i class="sw-skycraper"></i>'
+        case 'format':
+          return '<i class="sw-archive"></i>'
+        case 'algorithm':
+          return '<i class="sw-optimization"></i>'
+        case 'bundle':
+          return '<i class="sw-card-bundle"></i>'
+        case 'capture':
+          return '<i class="sw-article"></i>'
         case 'persona':
           return '<i class="sw-brain-configuration"></i>'
         case 'asset':
@@ -113,20 +118,20 @@ export default {
         case 'datamodel':
           return '<i class="sw-data-model"></i>'
         case 'folder':
-          return `<i class="sw-${this.computedOpen && this.model.children && this.model.children.length ? 'folder-open-v2' : 'folder-closed-v2'}"></i>`
+          return `<i class="sw-${this.computedOpen && this.model.children && this.model.children.length ? 'folder-open' : 'folder'}"></i>`
         case 'itemref':
-          return `<i class="sw-${this.smallItemRef ? 'link-small' : 'link'}"></i>`
+          return `<i class="sw-${this.smallItemRef ? 'link' : 'link'}"></i>`
         case 'functor':
-          return `<i class="sw-goal-tree"></i>`
+          return `<i class="sw-graphic-ascending"></i>`
         case 'optimization':
         case 'metric':
-          return `<i class="sw-screen-recording"></i>`
+          return `<i class="sw-target"></i>`
         case 'declaration':
-          return `<i class="sw-${useAs && useAs === 'declaration.output' ? 'items-list' : 'parameter'}"></i>`
+          return `<i class="sw-${useAs && useAs === 'declaration.output' ? 'items-list' : 'tools'}"></i>`
         case 'order':
           return `<i class="sw-timer"></i>`
         case 'codetemplate':
-          return `<i class="sw-templates"></i>`
+          return `<i class="sw-scaffolding"></i>`
         default:
           return null
       }
