@@ -118,7 +118,8 @@ export default {
         case 'datamodel':
           return '<i class="sw-data-model"></i>'
         case 'folder':
-          return `<i class="sw-${this.computedOpen && this.model.children && this.model.children.length ? 'folder-open' : 'folder'}"></i>`
+          let hasChildren = this.model.children && this.model.children.length
+          return `<i class="sw-${this.computedOpen && hasChildren ? 'folder-open' : (!hasChildren ? 'folder-empty' : 'folder')}"></i>`
         case 'itemref':
           return `<i class="sw-${this.smallItemRef ? 'link' : 'link'}"></i>`
         case 'functor':
