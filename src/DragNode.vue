@@ -1,16 +1,16 @@
 <template>
-  <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
-    <div :class='{"is-clicked": isClicked,"is-hover":isHover}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
-      <div :style="{ 'padding-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
+  <div :style='styleObj' :class='`theme-${theme}`' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
+    <div :class='{"is-clicked": isClicked, "is-hover": isHover, "default-tree-clicked": defaultTreeClicked, "default-tree-single": textParentClicked}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
+      <div :style="{ 'margin-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
         <span :class="caret"></span>
-        <div class='text'>
+        <div class='text' :class='{"parent-clicked": textParentClicked}'>
           <span class= 'spanIcon' v-html="computeIcon(model.subtype, false, model.use_as)"></span>
           <span :class="[isClicked ? 'spanSelectedText' : '' , isHover ? 'spanUnderlineText' : 'spanText']"> {{model.name}} </span>
         </div>
       </div>
     </div>
     <div class='treeMargin' v-show="computedOpen" v-if="isFolder">
-      <drag-node :draggable='isDraggable' :createChildNodeOnDoubleClick="createChildNodeOnDoubleClick" :open="item2.open" v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :defaultText='defaultText'>
+      <drag-node :draggable='isDraggable' :createChildNodeOnDoubleClick="createChildNodeOnDoubleClick" :open="item2.open" v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :theme='theme' :defaultText='defaultText'>
       </drag-node>
     </div>
   </div>
@@ -50,6 +50,10 @@ export default {
       type: Function,
       default: () => true
     },
+    theme: {
+      type: String,
+      default: 'default'
+    },
     defaultText: {
       type: String,
       default: 'New item'
@@ -64,11 +68,19 @@ export default {
     }
   },
   computed: {
-    caret () {
-      let hasChildren = this.model && this.model.children && this.model.children.length > 0
-      if (!hasChildren) return ['vue-drag-node-icon']
+    hasChildren() {
+      return this.model && this.model.children && this.model.children.length > 0
+    },
+    caret() {
+      if (!this.hasChildren) return ['vue-drag-node-icon']
       if (!this.willOpen) return ['vue-drag-node-icon']
       else return ['nodeClicked', 'vue-drag-node-icon']
+    },
+    textParentClicked() {
+      return !this.hasChildren
+    },
+    defaultTreeClicked() {
+      return this.hasChildren && this.willOpen
     },
     isFolder() {
       return this.model.children && this.model.children.length
@@ -243,11 +255,11 @@ export default {
   color: white;
 }
 .treeNodeText {
-  color: white !important;
   cursor: pointer;
+
   .text {
     display: flex;
-    align-items: baseline;
+    align-items: center;
   }
 }
 .vue-drag-node-icon {
@@ -258,17 +270,45 @@ export default {
 .light-mode .vue-drag-node-icon {
   border-left: 10px solid #555 !important;
 }
-.dnd-container .is-clicked {
-  background: #FF7A00 !important;
-  border-radius: 10px;
-  .treeNodeText {
-    background: #FF7A00 !important;
-    border-radius: 10px;
-    .spanSelectedText {
-      margin-right: 20px;
+
+.theme-nestview::v-deep {
+  .is-clicked.default-tree-single .treeNodeText,
+  .is-clicked.default-tree-clicked .treeNodeText {
+    .text.parent-clicked, .text {
+      color: #FF7A00 !important;
+
+      i::before {
+        color: #FF7A00 !important;
+      }
+
+      .spanText, .spanUnderlineText {
+        color: #FF7A00 !important;
+      }
     }
   }
 }
+
+.theme-default::v-deep {
+  .is-clicked.default-tree-clicked .treeNodeText,
+  .is-clicked.default-tree-single .treeNodeText {
+    background: #FF7A00 !important;
+    border-radius: 10px;
+    padding-right: 20px;
+
+    .text.parent-clicked {
+      color: white !important;
+
+      i::before {
+        color: white !important;
+      }
+
+      .spanText, .spanUnderlineText {
+        color: white !important;
+      }
+    }
+  }
+}
+
 .light-mode {
   .spanText {
     color: #555 !important
@@ -278,6 +318,7 @@ export default {
   }
 }
 </style>
+
 <style lang="scss">
 .light-mode {
   .treeNodeText .spanIcon i::before {
@@ -317,7 +358,7 @@ export default {
   box-sizing: border-box;
   width: fit-content;
   font-size: 18px;
-  color: #324057;
+  color: white;
   display: flex;
   align-items: center;
 }
@@ -345,28 +386,21 @@ export default {
 }
 .spanText {
     margin-left: 6px;
+    color: white;
 }
 .spanUnderlineText {
-    margin-left: 6px;
-    text-decoration-line: underline;
-    color: #fff !important;
+  color: white;
+  margin-left: 6px;
+  text-decoration-line: underline;
 }
 .spanSelectedText {
-    margin-left: 6px;
-    color: #ED9235;
-}
-.is-clicked {
-    background: #FF7A00;
-    border-radius: 10px;
-}
-.is-clicked .spanText {
-    color: #fff !important;
+  margin-left: 6px;
 }
 .spanItemref {
     margin-left: 2px;
 }
 .divIcons {
   display: flex;
-  justify-content: space_between;
+  justify-content: space-between;
 }
 </style>

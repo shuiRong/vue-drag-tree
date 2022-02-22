@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-for='(item,index) in newData'>
-      <drag-node :createChildNodeOnDoubleClick='createChildNodeOnDoubleClick' :open='item.open' :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :key='index'></drag-node>
+      <drag-node :createChildNodeOnDoubleClick='createChildNodeOnDoubleClick' :theme='theme' :open='item.open' :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :key='index'></drag-node>
     </template>
   </div>
 </template>
@@ -19,6 +19,10 @@ export default {
     allowDrop: {
       type: Function,
       default: () => true
+    },
+    theme: {
+      type: String,
+      default: 'default'
     },
     defaultText: {
       // 填加节点时显示的默认文本．** add default text for node
