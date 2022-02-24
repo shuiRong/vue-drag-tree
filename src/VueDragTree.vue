@@ -1,7 +1,18 @@
 <template>
   <div>
     <template v-for='(item,index) in newData'>
-      <drag-node :createChildNodeOnDoubleClick='createChildNodeOnDoubleClick' :theme='theme' :open='item.open' :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :key='index'></drag-node>
+      <drag-node :createChildNodeOnDoubleClick='createChildNodeOnDoubleClick'
+        :theme='theme'
+        :open='item.open'
+        :model='item'
+        :allowDrag='allowDrag'
+        :allowDrop='allowDrop'
+        :depth='increaseDepth'
+        :defaultText='defaultText'
+        :key='index'
+        :showDragIcon='showDragIcon'
+        :treeIsLocked='treeIsLocked'
+      ></drag-node>
     </template>
   </div>
 </template>
@@ -19,6 +30,14 @@ export default {
     allowDrop: {
       type: Function,
       default: () => true
+    },
+    showDragIcon: {
+      type: Boolean,
+      default: false
+    },
+    treeIsLocked: {
+      type: Boolean,
+      default: false
     },
     theme: {
       type: String,

@@ -1,16 +1,53 @@
 <template>
-  <div :style='styleObj' :class='`theme-${theme}`' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
-    <div :class='{"is-clicked": isClicked, "is-hover": isHover, "default-tree-clicked": defaultTreeClicked, "default-tree-single": textParentClicked}' @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
-      <div :style="{ 'margin-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText'>
+  <div
+    :style='styleObj'
+    :class='`theme-${theme}`'
+    @dragover.stop='dragOver'
+    @drop.stop='drop'
+    class='dnd-container'
+  >
+    <div
+      :class='{"is-clicked": isClicked, "is-hover": isHover, "default-tree-clicked": defaultTreeClicked, "default-tree-single": textParentClicked}'
+      @click="toggle"
+      @mouseover='mouseOver'
+      @mouseout='mouseOut'
+      @dblclick="changeType"
+    >
+      <div :style="{ 'margin-left': (this.depth - 1) * 1.5 + 'rem' }" :id='model.id' class='treeNodeText' :class="{disableDraggable: showDragIcon || !isDraggable}">
         <span :class="caret"></span>
         <div class='text' :class='{"parent-clicked": textParentClicked}'>
           <span class= 'spanIcon' v-html="computeIcon(model.subtype, false, model.use_as)"></span>
           <span :class="[isClicked ? 'spanSelectedText' : '' , isHover ? 'spanUnderlineText' : 'spanText']"> {{model.name}} </span>
         </div>
+        <i
+          title="Move"
+          v-if="showDragIcon && isDraggable"
+          class="sw-threedots-vertical"
+          :draggable='isDraggable'
+          @dragstart.stop='dragStart'
+          @drag.stop='drag'
+          @dragover.stop='dragOver'
+          @dragenter.stop='dragEnter'
+          @dragleave.stop='dragLeave'
+          @drop.stop='drop'
+          @dragend.stop='dragEnd'
+        ></i>
       </div>
     </div>
     <div class='treeMargin' v-show="computedOpen" v-if="isFolder">
-      <drag-node :draggable='isDraggable' :createChildNodeOnDoubleClick="createChildNodeOnDoubleClick" :open="item2.open" v-for="item2 in model.children" :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :model="item2" :key='item2.id' :theme='theme' :defaultText='defaultText'>
+      <drag-node
+        :createChildNodeOnDoubleClick="createChildNodeOnDoubleClick"
+        :open="item2.open" v-for="item2 in model.children"
+        :allowDrag='allowDrag'
+        :allowDrop='allowDrop'
+        :depth='increaseDepth'
+        :model="item2"
+        :key='item2.id'
+        :showDragIcon='showDragIcon'
+        :theme='theme'
+        :defaultText='defaultText'
+        :treeIsLocked='treeIsLocked'
+      >
       </drag-node>
     </div>
   </div>
@@ -46,6 +83,10 @@ export default {
       type: Function,
       default: () => true
     },
+    showDragIcon: {
+      type: Boolean,
+      default: true
+    },
     allowDrop: {
       type: Function,
       default: () => true
@@ -53,6 +94,10 @@ export default {
     theme: {
       type: String,
       default: 'default'
+    },
+    treeIsLocked: {
+      type: Boolean,
+      default: false
     },
     defaultText: {
       type: String,
@@ -90,6 +135,9 @@ export default {
     },
     isDraggable() {
       return this.allowDrag(this.model, this)
+    },
+    changeMenuTree () {
+      return this.treeIsLocked
     },
     computedOpen: {
       get() {
@@ -150,6 +198,14 @@ export default {
       }
     },
     toggle() {
+      if (this.changeMenuTree) {
+        this.$notify({
+          type: 'warn',
+          title: 'Warning!',
+          text: 'Please edit the row then return to view mode!'
+        })
+        return
+      }
       if (this.isFolder) this.willOpen = !this.willOpen
       rootTree.emitCurNodeClicked(this.model, this)
       this.isClicked = !this.isClicked
@@ -165,7 +221,8 @@ export default {
         }
         this.isClicked = true
         nodeClicked = this.model.id
-      } else this.isClicked = true
+      }
+      else this.isClicked = true
     },
     changeType() {
       if(this.createChildNodeOnDoubleClick) {
@@ -250,16 +307,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sw-threedots-vertical {
+  font-size: 16px;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+}
 .spanText, .spanUnderlineText {
   white-space: nowrap;
   color: white;
+}
+.disableDraggable {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 .treeNodeText {
   cursor: pointer;
 
   .text {
     display: flex;
-    align-items: center;
+    align-items: initial;
   }
 }
 .vue-drag-node-icon {
