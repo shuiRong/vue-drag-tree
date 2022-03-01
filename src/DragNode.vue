@@ -273,7 +273,7 @@ export default {
       return true
     },
     dragEnter(e) {
-      if (this._uid !== fromData._uid) {
+      if (!fromData || this._uid !== fromData._uid) {
         this.styleObj.opacity = 0.5
       }
       rootTree.emitDragEnter(this.model, this, e)
@@ -285,6 +285,13 @@ export default {
     drop(e) {
       e.preventDefault()
       this.styleObj.opacity = 1
+
+      /** Handle dropping items from a grid into the tree */
+      let gridId = e.dataTransfer && e.dataTransfer.getData('grid')
+      if (gridId) {
+        rootTree.emitGridDrop({ id: this.model.id, gridId, treeLabel: this.model.name }, this, e)
+        return
+      }
       if (!this.allowDrop(this.model, this)) {
         return
       }

@@ -99,6 +99,9 @@ export default {
     },
     emitDrop(model, component, e) {
       this.$emit('drop', model, component, e)
+    },
+    emitGridDrop(opts, component, e) {
+      this.$emit('grid-drop', opts, component, e)
     }
   },
   components: {
