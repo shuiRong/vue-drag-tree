@@ -10,6 +10,7 @@
         :depth='increaseDepth'
         :defaultText='defaultText'
         :key='index'
+        :ref="item.id || item.name"
         :showDragIcon='showDragIcon'
         :treeIsLocked='treeIsLocked'
       ></drag-node>
@@ -102,6 +103,16 @@ export default {
     },
     emitGridDrop(opts, component, e) {
       this.$emit('grid-drop', opts, component, e)
+    },
+    toggleChildNode(...nodePath) {
+      let currentRef = this
+      for (let index = 0; index < nodePath.length; index++) {
+        let key = nodePath[index]
+        currentRef = currentRef.$refs[key]
+        if (Array.isArray(currentRef)) currentRef = currentRef[0]
+        if (!currentRef) return
+      }
+      currentRef.toggle()
     }
   },
   components: {

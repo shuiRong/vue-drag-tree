@@ -43,6 +43,7 @@
         :depth='increaseDepth'
         :model="item2"
         :key='item2.id'
+        :ref="item2.id"
         :showDragIcon='showDragIcon'
         :theme='theme'
         :defaultText='defaultText'
