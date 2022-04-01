@@ -354,14 +354,14 @@ export default {
   .is-clicked.default-tree-single .treeNodeText,
   .is-clicked.default-tree-clicked .treeNodeText {
     .text.parent-clicked, .text {
-      color: #FF7A00 !important;
+      color: #f29807 !important;
 
       i::before {
-        color: #FF7A00 !important;
+        color: #f29807 !important;
       }
 
       .spanText, .spanUnderlineText {
-        color: #FF7A00 !important;
+        color: #f29807 !important;
       }
     }
   }
@@ -370,7 +370,7 @@ export default {
 .theme-default::v-deep {
   .is-clicked.default-tree-clicked .treeNodeText,
   .is-clicked.default-tree-single .treeNodeText {
-    background: #FF7A00 !important;
+    background: #f29807 !important;
     border-radius: 10px;
     padding-right: 20px;
 
