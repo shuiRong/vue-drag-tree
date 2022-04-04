@@ -22,7 +22,7 @@
         <i
           title="Move"
           v-if="showDragIcon && isDraggable"
-          class="sw-threedots-vertical"
+          v-bind:class="getDragClass()"
           :draggable='isDraggable'
           @dragstart.stop='dragStart'
           @drag.stop='drag'
@@ -72,6 +72,7 @@ export default {
         opacity: 1
       },
       willOpen: this.open,
+      changeDragIcon: false
     }
   },
   props: {
@@ -198,6 +199,10 @@ export default {
           return null
       }
     },
+   getDragClass(){
+     if(this.changeDragIcon) return "sw-article"
+     else return "sw-threedots-vertical"
+   },
     toggle() {
       if (this.changeMenuTree) {
         this.$notify({
@@ -266,10 +271,12 @@ export default {
     dragStart(e) {
       e.dataTransfer.effectAllowed = 'move'
       e.dataTransfer.setData('text/plain', 'asdad')
+      this.changeDragIcon = true
       return true
     },
     dragOver(e) {
       e.preventDefault()
+      this.changeDragIcon = false
       rootTree.emitDragOver(this.model, this, e)
       return true
     },
@@ -320,6 +327,13 @@ export default {
   position: absolute;
   right: 0;
   margin-right: 10px;
+}
+.sw-article {
+  font-size: 16px;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  opacity: .5;
 }
 .spanText, .spanUnderlineText {
   white-space: nowrap;
