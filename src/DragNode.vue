@@ -24,7 +24,7 @@
           v-if="showDragIcon && isDraggable"
           v-bind:class="getDragClass()"
           :draggable='isDraggable'
-          @dragstart.stop='dragStart'
+          @dragstart.stop='dragStart($event, model.id)'
           @drag.stop='drag'
           @dragover.stop='dragOver'
           @dragenter.stop='dragEnter'
@@ -200,7 +200,7 @@ export default {
       }
     },
    getDragClass(){
-     if(this.changeDragIcon) return "sw-article"
+     if(this.changeDragIcon) return "sw-folder"
      else return "sw-threedots-vertical"
    },
     toggle() {
@@ -268,15 +268,15 @@ export default {
       fromData = this
       rootTree.emitDrag(this.model, this, e)
     },
-    dragStart(e) {
+    dragStart(e, id) {
       e.dataTransfer.effectAllowed = 'move'
       e.dataTransfer.setData('text/plain', 'asdad')
-      this.changeDragIcon = true
+      this.changeDragIcon = id
       return true
     },
     dragOver(e) {
       e.preventDefault()
-      this.changeDragIcon = false
+      this.changeDragIcon = null
       rootTree.emitDragOver(this.model, this, e)
       return true
     },
@@ -328,7 +328,7 @@ export default {
   right: 0;
   margin-right: 10px;
 }
-.sw-article {
+.sw-folder {
   font-size: 16px;
   position: absolute;
   right: 0;
