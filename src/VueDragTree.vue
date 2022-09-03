@@ -1,8 +1,17 @@
 <template>
   <div>
-    <template v-for='(item,index) in newData'>
-      <drag-node :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :disableDBClick='disableDBClick' :key='index' v-slot='slotProps'>
-        <slot :nodeName="slotProps.nodeName" :isClicked='slotProps.isClicked'></slot>
+    <template v-for="(item, index) in newData">
+      <drag-node
+        :model="item"
+        :allowDrag="allowDrag"
+        :allowDrop="allowDrop"
+        :depth="increaseDepth"
+        :defaultText="defaultText"
+        :disableDBClick="disableDBClick"
+        :key="index"
+        v-slot="slotProps"
+      >
+        <slot v-bind="slotProps"></slot>
       </drag-node>
     </template>
   </div>
@@ -16,26 +25,26 @@ export default {
     data: Array,
     allowDrag: {
       type: Function,
-      default: () => true
+      default: () => true,
     },
     allowDrop: {
       type: Function,
-      default: () => true
+      default: () => true,
     },
     defaultText: {
       // 填加节点时显示的默认文本．
       type: String,
-      default: "New Node"
+      default: "New Node",
     },
     depth: {
       type: Number,
-      default: 0
+      default: 0,
     },
     disableDBClick: {
       // 禁用双击增加新的item
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     increaseDepth() {
@@ -55,8 +64,8 @@ export default {
         }
         // 然后利用对象深拷贝（返回target的引用），因此控制台不会报错～
         this.data = Object.assign(this.data, newValue);
-      }
-    }
+      },
+    },
   },
   methods: {
     emitCurNodeClicked(model, component) {
@@ -79,11 +88,11 @@ export default {
     },
     emitDrop(model, component, e) {
       this.$emit("drop", model, component, e);
-    }
+    },
   },
   components: {
-    DragNode
-  }
+    DragNode,
+  },
 };
 </script>
 

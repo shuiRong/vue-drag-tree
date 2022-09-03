@@ -23,7 +23,7 @@
         :id="model.id"
         class="treeNodeText"
       >
-        <slot :nodeName="model.name" :isClicked="isClicked">
+        <slot :isClicked="isClicked" v-bind="model">
           <span
             :class="[
               isClicked ? 'nodeClicked' : '',
