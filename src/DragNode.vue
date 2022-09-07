@@ -23,7 +23,7 @@
         :id="model.id"
         class="treeNodeText"
       >
-        <slot :nodeName="model.name" :isClicked="isClicked">
+        <slot :isClicked="isClicked" v-bind="model">
           <span
             :class="[
               isClicked ? 'nodeClicked' : '',
@@ -36,7 +36,7 @@
         </slot>
       </div>
     </div>
-    <div class="treeMargin" v-show="open" v-if="isFolder">
+    <div class="treeMargin" v-show="isClicked" v-if="isFolder">
       <drag-node
         v-for="item2 in model.children"
         :allowDrag="allowDrag"
@@ -63,7 +63,6 @@ export default {
   name: "DragNode",
   data() {
     return {
-      open: false,
       isClicked: false, // 当前节点被点击
       isHover: false, // 当前节点被hvoer
       styleObj: {
@@ -109,9 +108,6 @@ export default {
   },
   methods: {
     toggle() {
-      if (this.isFolder) {
-        this.open = !this.open;
-      }
       // 调用vue-drag-tree的父组件中的方法,以传递出当前被点击的节点的id值
       //　API: 对外开放的当前被点击节点的信息
       rootTree.emitCurNodeClicked(this.model, this);
@@ -153,7 +149,6 @@ export default {
       if (!this.isFolder) {
         this.$set(this.model, "children", []);
         this.addChild();
-        this.open = true;
         this.isClicked = true;
       }
     },
